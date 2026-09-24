@@ -1,0 +1,2 @@
+# managemen
+AKfycbyjzXu8OYYx3AtgO0cLJaCGuiNpIv3MfBmblzXeb2MUTCsXW_FaDWVbbqBBD_TGgts
