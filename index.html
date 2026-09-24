@@ -1,0 +1,610 @@
+<!-- HEADER / NAVBAR -->
+<header class="bg-emerald-700 text-white shadow-md sticky top-0 z-50 no-print">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="bg-white/10 p-2 rounded-lg">
+                <i data-lucide="book-open-check" class="w-6 h-6 text-amber-300"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight">Rumah Tahfidz Al Arba</h1>
+                <p class="text-xs text-emerald-200">Sistem Management & Mutaba'ah Santri</p>
+            </div>
+        </div>
+        <div class="text-xs bg-emerald-800 px-3 py-1 rounded-full text-emerald-100 hidden sm:block">
+            Status: <span class="text-emerald-300 font-semibold">Aktif (Online)</span>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full grid grid-cols-1 md:grid-cols-12 gap-6">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="md:col-span-3 space-y-2 no-print">
+        <div class="bg-white rounded-xl shadow-sm border border-emerald-100 p-2 space-y-1">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors bg-emerald-600 text-white">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                Dashboard Ringkasan
+            </button>
+            <button onclick="switchTab('santri')" id="nav-santri" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                Data Santri & Kelas
+            </button>
+            <button onclick="switchTab('mutabaah')" id="nav-mutabaah" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+                <i data-lucide="book-marked" class="w-4 h-4"></i>
+                Mutaba'ah Hafalan
+            </button>
+            <button onclick="switchTab('presensi')" id="nav-presensi" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+                <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                Presensi Kehadiran
+            </button>
+            <button onclick="switchTab('infaq')" id="nav-infaq" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+                <i data-lucide="wallet" class="w-4 h-4"></i>
+                Infaq Bulanan
+            </button>
+            <button onclick="switchTab('rapor')" id="nav-rapor" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+                Cetak Rapor Santri
+            </button>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="bg-amber-50 rounded-xl border border-amber-200 p-4 text-xs text-amber-900 space-y-2">
+            <div class="font-semibold flex items-center gap-2">
+                <i data-lucide="database" class="w-4 h-4 text-amber-700"></i> Database Sheets
+            </div>
+            <p>Data tersinkron dengan spreadsheet utama Rumah Tahfidz Al Arba.</p>
+            <a href="https://docs.google.com/spreadsheets/d/1c9lAomBdg8cH0ss_ccG-4MCZjQAOC5vGWPDWHIU_Uto/edit" target="_blank" class="inline-flex items-center gap-1 text-emerald-700 font-semibold hover:underline">
+                Buka Google Sheets <i data-lucide="external-link" class="w-3 h-3"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="md:col-span-9 space-y-6">
+
+        <!-- TAB 1: DASHBOARD -->
+        <section id="tab-dashboard" class="tab-content space-y-6">
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div class="bg-emerald-100 p-3 rounded-xl text-emerald-700">
+                        <i data-lucide="user-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Total Santri Aktif</p>
+                        <h3 class="text-2xl font-bold text-slate-800" id="stat-total-santri">3</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div class="bg-blue-100 p-3 rounded-xl text-blue-700">
+                        <i data-lucide="percent" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Rata-Rata Kehadiran</p>
+                        <h3 class="text-2xl font-bold text-slate-800" id="stat-avg-presensi">84%</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
+                    <div class="bg-amber-100 p-3 rounded-xl text-amber-700">
+                        <i data-lucide="coins" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Infaq Bulan Ini</p>
+                        <h3 class="text-2xl font-bold text-slate-800" id="stat-infaq">Rp 300.000</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fast Actions & Alerts -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6 space-y-4">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i data-lucide="bell" class="w-4 h-4 text-amber-500"></i>
+                    Peringatan Target Kehadiran (&lt; 80%)
+                </h3>
+                <div id="alert-presensi-list" class="space-y-2">
+                    <!-- Dynamic Warnings -->
+                </div>
+            </div>
+
+            <!-- Recent Mutaba'ah Activity -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6 space-y-4">
+                <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i>
+                    Aktivitas Mutaba'ah Terakhir
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 text-slate-500 font-medium border-b">
+                            <tr>
+                                <th class="py-3 px-4">Tanggal</th>
+                                <th class="py-3 px-4">Nama Santri</th>
+                                <th class="py-3 px-4">Materi / Surah</th>
+                                <th class="py-3 px-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-recent-mutabaah">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DATA SANTRI -->
+        <section id="tab-santri" class="tab-content hidden space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-100">
+                <h2 class="font-bold text-lg text-slate-800">Daftar Santri & Kelompok Kelas</h2>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <input type="text" id="search-santri" oninput="renderSantriTable()" placeholder="Cari nama santri..." class="px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-60">
+                    <select id="filter-kelas" onchange="renderSantriTable()" class="px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="Semua">Semua Kelas</option>
+                        <option value="Iqra">Kelas Iqra</option>
+                        <option value="Al-Qur'an">Kelas Al-Qur'an</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 text-slate-600 font-semibold border-b">
+                            <tr>
+                                <th class="py-3 px-4">ID Santri</th>
+                                <th class="py-3 px-4">Nama Santri</th>
+                                <th class="py-3 px-4">Kelompok Kelas</th>
+                                <th class="py-3 px-4">Kontak Orang Tua</th>
+                                <th class="py-3 px-4">Capaian Saat Ini</th>
+                            </tr>
+                        </thead>
+                        <tbody id="santri-table-body" class="divide-y divide-slate-100">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: MUTABA'AH HAFALAN -->
+        <section id="tab-mutabaah" class="tab-content hidden space-y-6">
+            <!-- Form Mutaba'ah -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6 space-y-4">
+                <h2 class="font-bold text-lg text-slate-800 border-b pb-2">Catat Hafalan / Mutaba'ah Harian</h2>
+                <form id="form-mutabaah" onsubmit="saveMutabaah(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Santri</label>
+                        <select id="mutabaah-santri-select" required class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500">
+                            <!-- Dynamic options -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal</label>
+                        <input type="date" id="mutabaah-tanggal" required class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Capaian (Juz / Surah / Jilid Iqra)</label>
+                        <input type="text" id="mutabaah-materi" placeholder="Contoh: Surah An-Naba / Iqra Jilid 4" required class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Tingkat Kelancaran</label>
+                        <select id="mutabaah-kelancaran" class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500">
+                            <option value="Lancar">Lancar (Mumtaz)</option>
+                            <option value="Perlu Mengulang">Perlu Mengulang (Muraja'ah)</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan Ustaz / Ustazah</label>
+                        <textarea id="mutabaah-catatan" rows="2" placeholder="Catatan tajwid, makhraj, atau perbaikan..." class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
+                    </div>
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
+                            <i data-lucide="save" class="w-4 h-4"></i> Simpan Mutaba'ah
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- History Mutaba'ah -->
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6 space-y-4">
+                <h3 class="font-bold text-slate-800 text-base">Riwayat Mutaba'ah Terbaru</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 text-slate-600 font-semibold border-b">
+                            <tr>
+                                <th class="py-3 px-4">Tanggal</th>
+                                <th class="py-3 px-4">Nama Santri</th>
+                                <th class="py-3 px-4">Materi Hafalan</th>
+                                <th class="py-3 px-4">Kelancaran</th>
+                                <th class="py-3 px-4">Catatan Pengajar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mutabaah-history-body" class="divide-y divide-slate-100">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PRESENSI KEHADIRAN -->
+        <section id="tab-presensi" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b pb-3">
+                    <div>
+                        <h2 class="font-bold text-lg text-slate-800">Presensi Kehadiran Santri</h2>
+                        <p class="text-xs text-slate-500">Target minimal kehadiran santri: <span class="font-semibold text-emerald-700">80%</span></p>
+                    </div>
+                    <span class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">
+                        Hari Ini: <span id="presensi-date-today"></span>
+                    </span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 text-slate-600 font-semibold border-b">
+                            <tr>
+                                <th class="py-3 px-4">Nama Santri</th>
+                                <th class="py-3 px-4">Persentase Kehadiran</th>
+                                <th class="py-3 px-4 text-center">Status Kehadiran Hari Ini</th>
+                            </tr>
+                        </thead>
+                        <tbody id="presensi-table-body" class="divide-y divide-slate-100">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: INFAQ BULANAN -->
+        <section id="tab-infaq" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-xl border border-slate-100 shadow-sm p-6 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b pb-3">
+                    <div>
+                        <h2 class="font-bold text-lg text-slate-800">Status Infaq Bulanan Santri</h2>
+                        <p class="text-xs text-slate-500">Periode: September 2026</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 text-slate-600 font-semibold border-b">
+                            <tr>
+                                <th class="py-3 px-4">Nama Santri</th>
+                                <th class="py-3 px-4">Nominal Infaq</th>
+                                <th class="py-3 px-4">Status Pembayaran</th>
+                                <th class="py-3 px-4 text-center">Aksi Konfirmasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="infaq-table-body" class="divide-y divide-slate-100">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: CETAK RAPOR -->
+        <section id="tab-rapor" class="tab-content hidden space-y-6">
+            <div class="bg-white p-4 rounded-xl border border-slate-100 no-print flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <label class="text-sm font-semibold text-slate-700 whitespace-nowrap">Pilih Santri:</label>
+                    <select id="rapor-santri-select" onchange="renderRaporCard()" class="px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-emerald-500 w-full sm:w-60">
+                        <!-- Dynamic options -->
+                    </select>
+                </div>
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-medium px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Cetak Rapor (PDF)
+                </button>
+            </div>
+
+            <!-- PREVIEW RAPOR (PRINTABLE AREA) -->
+            <div id="rapor-print-area" class="bg-white rounded-xl border border-slate-200 p-8 space-y-6 shadow-sm">
+                <!-- Kop Rapor -->
+                <div class="border-b-2 border-slate-800 pb-4 text-center space-y-1">
+                    <h2 class="text-xl font-bold uppercase tracking-wide text-slate-800">Rumah Tahfidz Al Arba</h2>
+                    <p class="text-xs text-slate-600">Laporan Perkembangan Hafalan & Hasil Belajar Santri</p>
+                    <p class="text-xs text-slate-500">Jl. Contoh Al-Qur'an No. 40, Bandung | Email: info@alarba.tahfidz</p>
+                </div>
+
+                <!-- Detail Santri -->
+                <div class="grid grid-cols-2 gap-4 text-sm bg-emerald-50/50 p-4 rounded-lg border border-emerald-100">
+                    <div>
+                        <p><span class="text-slate-500">Nama Santri:</span> <strong id="rapor-nama" class="text-slate-800">-</strong></p>
+                        <p><span class="text-slate-500">ID Santri:</span> <strong id="rapor-id" class="text-slate-800">-</strong></p>
+                    </div>
+                    <div>
+                        <p><span class="text-slate-500">Kelompok Kelas:</span> <strong id="rapor-kelas" class="text-slate-800">-</strong></p>
+                        <p><span class="text-slate-500">Presensi Kehadiran:</span> <strong id="rapor-presensi" class="text-slate-800">-</strong></p>
+                    </div>
+                </div>
+
+                <!-- Summary Assessment -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-1">Capaian Hafalan & Mutaba'ah</h4>
+                    <table class="w-full text-sm border text-left">
+                        <thead class="bg-slate-100 text-slate-700">
+                            <tr>
+                                <th class="p-2 border">Kategori</th>
+                                <th class="p-2 border">Capaian Saat Ini</th>
+                                <th class="p-2 border">Evaluasi Kelancaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-2 border font-medium">Tingkat Capaian</td>
+                                <td class="p-2 border" id="rapor-capaian">-</td>
+                                <td class="p-2 border text-emerald-700 font-semibold" id="rapor-status-hafalan">Lancar (Mumtaz)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-slate-800 text-sm border-b pb-1">Catatan Pembimbing (Ustaz/Ustazah)</h4>
+                    <div class="p-3 border rounded-lg bg-slate-50 text-sm text-slate-700 italic min-h-[60px]" id="rapor-catatan">
+                        "Alhamdulillah, santri menunjukkan ketekunan yang baik dalam menambah hafalan dan menjaga tajwid."
+                    </div>
+                </div>
+
+                <!-- Signatures -->
+                <div class="grid grid-cols-2 text-center text-xs text-slate-700 pt-12">
+                    <div>
+                        <p>Orang Tua / Wali Santri</p>
+                        <div class="h-16"></div>
+                        <p class="font-bold">( ............................................ )</p>
+                    </div>
+                    <div>
+                        <p>Pembimbing / Ustaz Tahfidz</p>
+                        <div class="h-16"></div>
+                        <p class="font-bold">( Ustaz Rumah Tahfidz )</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+    // Initial State / Data Dummy
+    let state = {
+        santri: [
+            { id: "S-001", nama: "Ahmad Fauzi", kelas: "Al-Qur'an", kontak: "0812-3456-7890", capaian: "2 Juz (Juz 30 & 29)", presensi: 92, infaq: "Lunas" },
+            { id: "S-002", nama: "Siti Aisyah", kelas: "Iqra", kontak: "0813-9876-5432", capaian: "Iqra Jilid 4", presensi: 85, infaq: "Lunas" },
+            { id: "S-003", nama: "Muhammad Rizky", kelas: "Al-Qur'an", kontak: "0857-1122-3344", capaian: "1 Juz (Juz 30)", presensi: 75, infaq: "Belum Lunas" }
+        ],
+        mutabaah: [
+            { tanggal: "2026-09-23", santriId: "S-001", nama: "Ahmad Fauzi", materi: "Surah An-Naba 1-20", kelancaran: "Lancar", catatan: "Makhraj & tajwid sangat baik." },
+            { tanggal: "2026-09-23", santriId: "S-002", nama: "Siti Aisyah", materi: "Iqra Jilid 4 Hal. 12", kelancaran: "Lancar", catatan: "Perhatikan panjang pendek (Mad)." },
+            { tanggal: "2026-09-22", santriId: "S-003", nama: "Muhammad Rizky", materi: "Surah Al-Mulk 1-10", kelancaran: "Perlu Mengulang", catatan: "Ulangi kelancaran ayat 5-8 di rumah." }
+        ]
+    };
+
+    // Initialize App
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+        document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
+        document.getElementById('presensi-date-today').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        
+        renderDashboard();
+        renderSantriTable();
+        populateSantriSelects();
+        renderMutabaahHistory();
+        renderPresensiTable();
+        renderInfaqTable();
+        renderRaporCard();
+    });
+
+    // Tab Switching Logic
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.nav-btn').forEach(el => {
+            el.classList.remove('bg-emerald-600', 'text-white');
+            el.classList.add('text-slate-600', 'hover:bg-emerald-50', 'hover:text-emerald-700');
+        });
+
+        document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+        const activeNav = document.getElementById(`nav-${tabName}`);
+        activeNav.classList.add('bg-emerald-600', 'text-white');
+        activeNav.classList.remove('text-slate-600', 'hover:bg-emerald-50', 'hover:text-emerald-700');
+    }
+
+    // Render Dashboard Stats
+    function renderDashboard() {
+        document.getElementById('stat-total-santri').innerText = state.santri.length;
+        const avgPresensi = Math.round(state.santri.reduce((acc, curr) => acc + curr.presensi, 0) / state.santri.length);
+        document.getElementById('stat-avg-presensi').innerText = `${avgPresensi}%`;
+
+        // Alerts for Presensi < 80%
+        const alertList = document.getElementById('alert-presensi-list');
+        const lowAtt = state.santri.filter(s => s.presensi < 80);
+        if (lowAtt.length === 0) {
+            alertList.innerHTML = `<p class="text-xs text-emerald-600 font-medium bg-emerald-50 p-2 rounded">Semua santri memenuhi target kehadiran minimal 80%.</p>`;
+        } else {
+            alertList.innerHTML = lowAtt.map(s => `
+                <div class="flex justify-between items-center bg-amber-50 p-3 rounded-lg border border-amber-200 text-xs">
+                    <span class="font-semibold text-amber-900">${s.nama} (${s.kelas})</span>
+                    <span class="text-amber-700 font-bold">Kehadiran: ${s.presensi}% (Kurang dari 80%)</span>
+                </div>
+            `).join('');
+        }
+
+        // Recent Mutabaah Activity
+        const recentBody = document.getElementById('dashboard-recent-mutabaah');
+        recentBody.innerHTML = state.mutabaah.slice(0, 3).map(m => `
+            <tr class="border-b last:border-0 hover:bg-slate-50">
+                <td class="py-2.5 px-4 text-xs text-slate-500">${m.tanggal}</td>
+                <td class="py-2.5 px-4 font-semibold text-slate-800">${m.nama}</td>
+                <td class="py-2.5 px-4 text-slate-600">${m.materi}</td>
+                <td class="py-2.5 px-4">
+                    <span class="px-2 py-0.5 rounded-full text-xs ${m.kelancaran === 'Lancar' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                        ${m.kelancaran}
+                    </span>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // Render Santri Table
+    function renderSantriTable() {
+        const search = document.getElementById('search-santri').value.toLowerCase();
+        const filter = document.getElementById('filter-kelas').value;
+        const tbody = document.getElementById('santri-table-body');
+
+        const filtered = state.santri.filter(s => {
+            const matchSearch = s.nama.toLowerCase().includes(search) || s.id.toLowerCase().includes(search);
+            const matchKelas = filter === 'Semua' || s.kelas === filter;
+            return matchSearch && matchKelas;
+        });
+
+        tbody.innerHTML = filtered.map(s => `
+            <tr class="hover:bg-slate-50">
+                <td class="py-3 px-4 font-mono text-xs text-slate-500">${s.id}</td>
+                <td class="py-3 px-4 font-semibold text-slate-800">${s.nama}</td>
+                <td class="py-3 px-4">
+                    <span class="px-2 py-1 rounded-md text-xs ${s.kelas === 'Iqra' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-purple-50 text-purple-700 border border-purple-200'}">
+                        ${s.kelas}
+                    </span>
+                </td>
+                <td class="py-3 px-4 text-slate-600">${s.kontak}</td>
+                <td class="py-3 px-4 text-slate-700 font-medium">${s.capaian}</td>
+            </tr>
+        `).join('');
+    }
+
+    // Populate Select Options
+    function populateSantriSelects() {
+        const options = state.santri.map(s => `<option value="${s.id}">${s.nama} (${s.kelas})</option>`).join('');
+        document.getElementById('mutabaah-santri-select').innerHTML = options;
+        document.getElementById('rapor-santri-select').innerHTML = options;
+    }
+
+    // Save Mutaba'ah Entry
+    function saveMutabaah(e) {
+        e.preventDefault();
+        const santriId = document.getElementById('mutabaah-santri-select').value;
+        const santriObj = state.santri.find(s => s.id === santriId);
+        const tanggal = document.getElementById('mutabaah-tanggal').value;
+        const materi = document.getElementById('mutabaah-materi').value;
+        const kelancaran = document.getElementById('mutabaah-kelancaran').value;
+        const catatan = document.getElementById('mutabaah-catatan').value;
+
+        state.mutabaah.unshift({
+            tanggal, santriId, nama: santriObj.nama, materi, kelancaran, catatan
+        });
+
+        // Update santri capaian
+        santriObj.capaian = materi;
+
+        alert(`Mutaba'ah untuk ${santriObj.nama} berhasil disimpan!`);
+        document.getElementById('form-mutabaah').reset();
+        document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
+
+        renderDashboard();
+        renderSantriTable();
+        renderMutabaahHistory();
+        renderRaporCard();
+    }
+
+    // Render Mutaba'ah History Table
+    function renderMutabaahHistory() {
+        const tbody = document.getElementById('mutabaah-history-body');
+        tbody.innerHTML = state.mutabaah.map(m => `
+            <tr class="hover:bg-slate-50">
+                <td class="py-3 px-4 text-xs text-slate-500">${m.tanggal}</td>
+                <td class="py-3 px-4 font-semibold text-slate-800">${m.nama}</td>
+                <td class="py-3 px-4 text-slate-700 font-medium">${m.materi}</td>
+                <td class="py-3 px-4">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${m.kelancaran === 'Lancar' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                        ${m.kelancaran}
+                    </span>
+                </td>
+                <td class="py-3 px-4 text-xs text-slate-600 italic">${m.catatan || '-'}</td>
+            </tr>
+        `).join('');
+    }
+
+    // Render Presensi Table
+    function renderPresensiTable() {
+        const tbody = document.getElementById('presensi-table-body');
+        tbody.innerHTML = state.santri.map(s => `
+            <tr class="hover:bg-slate-50">
+                <td class="py-3 px-4 font-semibold text-slate-800">${s.nama}</td>
+                <td class="py-3 px-4">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold ${s.presensi >= 80 ? 'text-emerald-700' : 'text-amber-600'}">${s.presensi}%</span>
+                        <div class="w-24 bg-slate-200 h-2 rounded-full overflow-hidden">
+                            <div class="h-full ${s.presensi >= 80 ? 'bg-emerald-500' : 'bg-amber-500'}" style="width: ${s.presensi}%"></div>
+                        </div>
+                    </div>
+                </td>
+                <td class="py-3 px-4 text-center">
+                    <div class="flex justify-center gap-1">
+                        <button onclick="markAttendance('${s.id}', 1)" class="px-2.5 py-1 text-xs bg-emerald-100 text-emerald-800 hover:bg-emerald-200 rounded font-medium">Hadir</button>
+                        <button onclick="markAttendance('${s.id}', 0)" class="px-2.5 py-1 text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 rounded font-medium">Izin/Sakit</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function markAttendance(santriId, status) {
+        const santri = state.santri.find(s => s.id === santriId);
+        if (status === 1 && santri.presensi < 100) {
+            santri.presensi = Math.min(100, santri.presensi + 2);
+        } else if (status === 0 && santri.presensi > 0) {
+            santri.presensi = Math.max(0, santri.presensi - 3);
+        }
+        renderPresensiTable();
+        renderDashboard();
+    }
+
+    // Render Infaq Table
+    function renderInfaqTable() {
+        const tbody = document.getElementById('infaq-table-body');
+        tbody.innerHTML = state.santri.map(s => `
+            <tr class="hover:bg-slate-50">
+                <td class="py-3 px-4 font-semibold text-slate-800">${s.nama}</td>
+                <td class="py-3 px-4 text-slate-600">Rp 150.000</td>
+                <td class="py-3 px-4">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${s.infaq === 'Lunas' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                        ${s.infaq}
+                    </span>
+                </td>
+                <td class="py-3 px-4 text-center">
+                    <button onclick="toggleInfaq('${s.id}')" class="px-3 py-1 text-xs bg-slate-800 text-white rounded hover:bg-slate-700 transition-colors">
+                        Ubah Status
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function toggleInfaq(santriId) {
+        const santri = state.santri.find(s => s.id === santriId);
+        santri.infaq = santri.infaq === 'Lunas' ? 'Belum Lunas' : 'Lunas';
+        renderInfaqTable();
+    }
+
+    // Render Rapor Card
+    function renderRaporCard() {
+        const selectedId = document.getElementById('rapor-santri-select').value;
+        const santri = state.santri.find(s => s.id === selectedId) || state.santri[0];
+        const mutabaahSantri = state.mutabaah.find(m => m.santriId === santri.id);
+
+        document.getElementById('rapor-nama').innerText = santri.nama;
+        document.getElementById('rapor-id').innerText = santri.id;
+        document.getElementById('rapor-kelas').innerText = santri.kelas;
+        document.getElementById('rapor-presensi').innerText = `${santri.presensi}%`;
+        document.getElementById('rapor-capaian').innerText = santri.capaian;
+        
+        if (mutabaahSantri) {
+            document.getElementById('rapor-status-hafalan').innerText = mutabaahSantri.kelancaran;
+            document.getElementById('rapor-catatan').innerText = `"${mutabaahSantri.catatan || 'Santri menunjukkan kesungguhan dalam belajar.'}"`;
+        } else {
+            document.getElementById('rapor-status-hafalan').innerText = "Lancar";
+            document.getElementById('rapor-catatan').innerText = '"Perkembangan belajar berjalan sesuai target."';
+        }
+    }
+</script>
