@@ -56,7 +56,7 @@
                 </div>
                 <div class="hidden md:flex items-center space-x-2 text-xs bg-brand-800 px-3 py-1.5 rounded-lg border border-brand-700">
                     <i class="fa-solid fa-circle text-emerald-400 text-[8px]"></i>
-                    <span>Database Terhubung (Google Sheets)</span>
+                    <span>Database Terhubung (Google Sheets API)</span>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium">Total Santri</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="total-santri">45</h3>
+                    <h3 class="text-xl font-bold text-slate-800" id="total-santri">0</h3>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
@@ -82,7 +82,7 @@
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium">Kelas Al-Qur'an</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="total-alquran">28</h3>
+                    <h3 class="text-xl font-bold text-slate-800" id="total-alquran">0</h3>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
@@ -91,7 +91,7 @@
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium">Kelas Iqra</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="total-iqra">17</h3>
+                    <h3 class="text-xl font-bold text-slate-800" id="total-iqra">0</h3>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
@@ -100,7 +100,7 @@
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium">Rata-rata Kehadiran</p>
-                    <h3 class="text-xl font-bold text-emerald-600">89.4%</h3>
+                    <h3 class="text-xl font-bold text-emerald-600" id="avg-kehadiran">0%</h3>
                 </div>
             </div>
         </div>
@@ -153,7 +153,7 @@
                             </tr>
                         </thead>
                         <tbody id="santri-tbody" class="divide-y divide-slate-100">
-                            <!-- Populated dynamically via JavaScript -->
+                            <!-- Dynamic Data -->
                         </tbody>
                     </table>
                 </div>
@@ -163,7 +163,6 @@
         <!-- TAB CONTENT 2: MUTABA'AH HAFALAN -->
         <div id="content-mutabaah" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Form Input Hafalan -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center space-x-2">
                         <i class="fa-solid fa-plus-circle text-brand-600"></i>
@@ -173,7 +172,7 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Santri</label>
                             <select id="mutabaah-santri" required class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500">
-                                <!-- Populated dynamically -->
+                                <!-- Dynamic Data -->
                             </select>
                         </div>
                         <div>
@@ -202,13 +201,12 @@
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan Ustaz/Ustazah</label>
                             <textarea id="mutabaah-catatan" rows="3" placeholder="Tajwid makhraj dijaga..." class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500"></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-2 px-4 rounded-lg text-sm shadow-sm transition">
+                        <button type="submit" id="btn-submit-hafalan" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-2 px-4 rounded-lg text-sm shadow-sm transition">
                             Simpan Setoran Hafalan
                         </button>
                     </form>
                 </div>
 
-                <!-- History Hafalan Table -->
                 <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-base font-bold text-slate-800 mb-4">Riwayat Mutaba'ah Terbaru</h3>
                     <div class="overflow-x-auto">
@@ -223,7 +221,7 @@
                                 </tr>
                             </thead>
                             <tbody id="mutabaah-tbody" class="divide-y divide-slate-100">
-                                <!-- Populated dynamically -->
+                                <!-- Dynamic Data -->
                             </tbody>
                         </table>
                     </div>
@@ -256,7 +254,7 @@
                             </tr>
                         </thead>
                         <tbody id="presensi-tbody" class="divide-y divide-slate-100">
-                            <!-- Populated dynamically -->
+                            <!-- Dynamic Data -->
                         </tbody>
                     </table>
                 </div>
@@ -293,7 +291,7 @@
                             </tr>
                         </thead>
                         <tbody id="infaq-tbody" class="divide-y divide-slate-100">
-                            <!-- Populated dynamically -->
+                            <!-- Dynamic Data -->
                         </tbody>
                     </table>
                 </div>
@@ -307,7 +305,7 @@
                     <h3 class="text-base font-bold text-slate-800 mb-4">Pilih Santri</h3>
                     <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Santri</label>
                     <select id="rapor-select-santri" onchange="generateRaporCard()" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg mb-4">
-                        <!-- Populated dynamically -->
+                        <!-- Dynamic Data -->
                     </select>
                     <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 px-4 rounded-lg text-sm shadow-sm flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-print"></i>
@@ -315,7 +313,6 @@
                     </button>
                 </div>
 
-                <!-- Card Rapor Printable -->
                 <div class="md:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-8" id="rapor-print-area">
                     <div class="border-b-2 border-brand-800 pb-4 mb-6 flex justify-between items-center">
                         <div>
@@ -328,7 +325,7 @@
                     </div>
 
                     <div id="rapor-card-details">
-                        <!-- Populated dynamically -->
+                        <!-- Dynamic Data -->
                     </div>
 
                     <div class="mt-8 pt-6 border-t border-slate-200 grid grid-cols-2 text-center text-xs text-slate-600">
@@ -339,7 +336,7 @@
                             <p class="font-underline">( .................................... )</p>
                         </div>
                         <div>
-                            <p>Bandung, 24 September 2026</p>
+                            <p>Bandung, 28 September 2026</p>
                             <p class="font-semibold mt-1">Ustaz / Ustazah Pengajar</p>
                             <div class="h-16"></div>
                             <p class="font-bold text-slate-800">( Pengasuh Al Arba )</p>
@@ -358,23 +355,70 @@
         </div>
     </footer>
 
-    <!-- JavaScript Data Logic -->
+    <!-- JavaScript Data Logic (Diakses via WEB_APP_URL) -->
     <script>
-        // Initial Mock Database (Mirrors Google Sheets structure)
-        let santriList = [
-            { id: "S-01", nama: "Ahmad Fauzi", kelas: "Al-Qur'an", wali: "Bpk. Hendra", hp: "08123456781", capaian: "Juz 30 (Lancar)", kehadiran: 92, infaq: "Lunas", nominal: "Rp 150.000" },
-            { id: "S-02", nama: "Siti Aisyah", kelas: "Iqra", wali: "Ibu Nurul", hp: "08123456782", capaian: "Iqra Jilid 4", kehadiran: 86, infaq: "Lunas", nominal: "Rp 150.000" },
-            { id: "S-03", nama: "Muhammad Rizky", kelas: "Al-Qur'an", wali: "Bpk. Agus", hp: "08123456783", capaian: "Juz 29", kehadiran: 74, infaq: "Belum Lunas", nominal: "Rp 150.000" },
-            { id: "S-04", nama: "Fatimah Az-Zahra", kelas: "Al-Qur'an", wali: "Ibu Rahma", hp: "08123456784", capaian: "Juz 30 (Khatam)", kehadiran: 95, infaq: "Lunas", nominal: "Rp 150.000" },
-            { id: "S-05", nama: "Umar Al-Faruq", kelas: "Iqra", wali: "Bpk. Bambang", hp: "08123456785", capaian: "Iqra Jilid 2", kehadiran: 80, infaq: "Belum Lunas", nominal: "Rp 150.000" }
-        ];
+        // TEMPELKAN URL HASIL DEPLOY GOOGLE APPS SCRIPT ANDA DI SINI
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx.../exec";
 
-        let mutabaahLogs = [
-            { tanggal: "2026-09-24", nama: "Ahmad Fauzi", capaian: "Surah An-Naba (Hal 1-2)", kelancaran: "Lancar (Mumtaz)", catatan: "Makhraj tajwid sangat baik." },
-            { tanggal: "2026-09-24", nama: "Siti Aisyah", capaian: "Iqra Jilid 4 Hal 12", kelancaran: "Cukup (Jayyid)", catatan: "Perhatikan panjang pendek (mad)." }
-        ];
+        let santriList = [];
+        let mutabaahLogs = [];
 
-        // Tab Switching
+        // 1. Inisialisasi Saat Halaman Web Dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('mutabaah-tanggal')) {
+                document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
+            }
+            if (document.getElementById('presensi-date')) {
+                document.getElementById('presensi-date').valueAsDate = new Date();
+            }
+
+            fetchDataFromSheets();
+        });
+
+        // 2. Fetch Data dari Google Sheets via WEB_APP_URL
+        async function fetchDataFromSheets() {
+            try {
+                // Ambil Data Santri
+                const resSantri = await fetch(`${WEB_APP_URL}?action=getSantri`);
+                santriList = await resSantri.json();
+
+                // Ambil Data Mutaba'ah
+                const resMutabaah = await fetch(`${WEB_APP_URL}?action=getMutabaah`);
+                mutabaahLogs = await resMutabaah.json();
+
+                // Render ke tampilan
+                renderSantriTable();
+                renderMutabaah();
+                renderPresensiTable();
+                renderInfaqTable();
+                renderRaporSelect();
+                updateMetrics();
+            } catch (error) {
+                console.error("Gagal terhubung ke Google Sheets API:", error);
+            }
+        }
+
+        // 3. Update Metric Cards
+        function updateMetrics() {
+            const totalSantriElem = document.getElementById('total-santri');
+            const totalAlquranElem = document.getElementById('total-alquran');
+            const totalIqraElem = document.getElementById('total-iqra');
+            const avgKehadiranElem = document.getElementById('avg-kehadiran');
+
+            if (totalSantriElem) totalSantriElem.innerText = santriList.length;
+            if (totalAlquranElem) {
+                totalAlquranElem.innerText = santriList.filter(s => s.kelas === "Al-Qur'an").length;
+            }
+            if (totalIqraElem) {
+                totalIqraElem.innerText = santriList.filter(s => s.kelas === "Iqra").length;
+            }
+            if (avgKehadiranElem && santriList.length > 0) {
+                const totalKehadiran = santriList.reduce((acc, s) => acc + (parseFloat(s.kehadiran) || 0), 0);
+                avgKehadiranElem.innerText = (totalKehadiran / santriList.length).toFixed(1) + "%";
+            }
+        }
+
+        // 4. Tab Navigation
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-brand-600', 'text-brand-600');
@@ -383,66 +427,87 @@
             document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
 
             const activeBtn = document.getElementById(`tab-${tabName}`);
-            activeBtn.classList.add('active', 'border-brand-600', 'text-brand-600');
-            activeBtn.classList.remove('border-transparent', 'text-slate-500');
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-brand-600', 'text-brand-600');
+                activeBtn.classList.remove('border-transparent', 'text-slate-500');
+            }
 
-            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            const activeContent = document.getElementById(`content-${tabName}`);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
         }
 
-        // Render Data Santri
+        // 5. Render Data Santri
         function renderSantriTable(data = santriList) {
             const tbody = document.getElementById('santri-tbody');
+            if (!tbody) return;
             tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Memuat data dari Google Sheets...</td></tr>`;
+                return;
+            }
+
             data.forEach(s => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-mono text-xs font-semibold">${s.id}</td>
-                        <td class="p-3 font-semibold text-slate-800">${s.nama}</td>
-                        <td class="p-3"><span class="px-2.5 py-1 text-xs rounded-full ${s.kelas === "Al-Qur'an" ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">${s.kelas}</span></td>
-                        <td class="p-3 text-xs">${s.wali}<br><span class="text-slate-400">${s.hp}</span></td>
-                        <td class="p-3 font-medium text-slate-700">${s.capaian}</td>
+                        <td class="p-3 font-mono text-xs font-semibold">${s.id || '-'}</td>
+                        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
+                        <td class="p-3"><span class="px-2.5 py-1 text-xs rounded-full ${s.kelas === "Al-Qur'an" ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">${s.kelas || '-'}</span></td>
+                        <td class="p-3 text-xs">${s.wali || '-'}<br><span class="text-slate-400">${s.hp || ''}</span></td>
+                        <td class="p-3 font-medium text-slate-700">${s.capaian || '-'}</td>
                         <td class="p-3 text-center"><span class="px-2 py-0.5 text-xs rounded bg-emerald-100 text-emerald-800 font-medium">Aktif</span></td>
                     </tr>
                 `;
             });
         }
 
-        // Filter Santri
         function filterSantriTable() {
-            const search = document.getElementById('search-santri').value.toLowerCase();
-            const kelas = document.getElementById('filter-kelas').value;
+            const searchElem = document.getElementById('search-santri');
+            const kelasElem = document.getElementById('filter-kelas');
+            
+            const search = searchElem ? searchElem.value.toLowerCase() : '';
+            const kelas = kelasElem ? kelasElem.value : 'All';
+
             const filtered = santriList.filter(s => {
-                const matchSearch = s.nama.toLowerCase().includes(search);
+                const matchSearch = (s.nama || '').toLowerCase().includes(search);
                 const matchKelas = (kelas === 'All') || (s.kelas === kelas);
                 return matchSearch && matchKelas;
             });
             renderSantriTable(filtered);
         }
 
-        // Render Mutaba'ah
+        // 6. Render & Simpan Mutaba'ah
         function renderMutabaah() {
             const tbody = document.getElementById('mutabaah-tbody');
+            if (!tbody) return;
             tbody.innerHTML = '';
+
             mutabaahLogs.forEach(m => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
-                        <td class="p-3 text-xs text-slate-500">${m.tanggal}</td>
-                        <td class="p-3 font-semibold text-slate-800">${m.nama}</td>
-                        <td class="p-3 font-medium">${m.capaian}</td>
-                        <td class="p-3"><span class="px-2 py-1 text-xs rounded bg-emerald-50 text-emerald-700 font-medium">${m.kelancaran}</span></td>
+                        <td class="p-3 text-xs text-slate-500">${m.tanggal || '-'}</td>
+                        <td class="p-3 font-semibold text-slate-800">${m.nama || '-'}</td>
+                        <td class="p-3 font-medium">${m.capaian || '-'}</td>
+                        <td class="p-3"><span class="px-2 py-1 text-xs rounded bg-emerald-50 text-emerald-700 font-medium">${m.kelancaran || '-'}</span></td>
                         <td class="p-3 text-xs italic text-slate-500">${m.catatan || '-'}</td>
                     </tr>
                 `;
             });
 
-            // Populate Santri Select Dropdown
             const select = document.getElementById('mutabaah-santri');
-            select.innerHTML = santriList.map(s => `<option value="${s.nama}">${s.nama} (${s.kelas})</option>`).join('');
+            if (select) {
+                select.innerHTML = santriList.map(s => `<option value="${s.nama}">${s.nama} (${s.kelas})</option>`).join('');
+            }
         }
 
-        // Save Hafalan
-        function saveHafalan(e) {
+        async function saveHafalan(e) {
             e.preventDefault();
+            const btnSubmit = document.getElementById('btn-submit-hafalan');
+            btnSubmit.disabled = true;
+            btnSubmit.innerText = "Menyimpan...";
+
             const nama = document.getElementById('mutabaah-santri').value;
             const tanggal = document.getElementById('mutabaah-tanggal').value;
             const juz = document.getElementById('mutabaah-juz').value;
@@ -450,28 +515,55 @@
             const kelancaran = document.getElementById('mutabaah-kelancaran').value;
             const catatan = document.getElementById('mutabaah-catatan').value;
 
-            mutabaahLogs.unshift({
-                tanggal, nama, capaian: `${juz} - ${surah}`, kelancaran, catatan
-            });
+            const newLog = {
+                action: "addHafalan",
+                tanggal: tanggal,
+                nama: nama,
+                capaian: `${juz} - ${surah}`,
+                kelancaran: kelancaran,
+                catatan: catatan
+            };
 
+            // Tambah sementara ke UI
+            mutabaahLogs.unshift(newLog);
             renderMutabaah();
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(newLog)
+                });
+                alert("Setoran hafalan berhasil tersimpan di Google Sheets!");
+            } catch (error) {
+                console.error("Gagal menyimpan hafalan:", error);
+                alert("Gagal terhubung ke server Google Sheets.");
+            }
+
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = "Simpan Setoran Hafalan";
             document.getElementById('form-hafalan').reset();
-            alert("Setoran hafalan berhasil disimpan!");
+            document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
         }
 
-        // Render Presensi
+        // 7. Render Presensi
         function renderPresensiTable() {
             const tbody = document.getElementById('presensi-tbody');
+            if (!tbody) return;
             tbody.innerHTML = '';
+
             santriList.forEach(s => {
-                const isBelowTarget = s.kehadiran < 80;
+                const kehadiranVal = parseFloat(s.kehadiran) || 100;
+                const isBelowTarget = kehadiranVal < 80;
+
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-semibold text-slate-800">${s.nama}</td>
-                        <td class="p-3 text-xs">${s.kelas}</td>
+                        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
+                        <td class="p-3 text-xs">${s.kelas || '-'}</td>
                         <td class="p-3">
                             <div class="flex items-center space-x-2">
-                                <span class="font-bold text-sm ${isBelowTarget ? 'text-red-600' : 'text-emerald-600'}">${s.kehadiran}%</span>
+                                <span class="font-bold text-sm ${isBelowTarget ? 'text-red-600' : 'text-emerald-600'}">${kehadiranVal}%</span>
                                 ${isBelowTarget ? '<span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">&lt; 80% Target</span>' : ''}
                             </div>
                         </td>
@@ -490,25 +582,32 @@
 
         function setPresensi(id, status) {
             const elem = document.getElementById(`status-${id}`);
-            elem.innerText = status;
-            elem.className = `text-xs px-2 py-1 rounded font-bold ${status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' : status === 'Izin' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}`;
+            if (elem) {
+                elem.innerText = status;
+                elem.className = `text-xs px-2 py-1 rounded font-bold ${status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' : status === 'Izin' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}`;
+            }
         }
 
-        // Render Infaq
+        // 8. Render Infaq
         function renderInfaqTable() {
-            const filter = document.getElementById('filter-infaq').value;
+            const filterElem = document.getElementById('filter-infaq');
+            const filter = filterElem ? filterElem.value : 'All';
             const tbody = document.getElementById('infaq-tbody');
+            if (!tbody) return;
             tbody.innerHTML = '';
+
             santriList.forEach(s => {
-                if (filter !== 'All' && s.infaq !== filter) return;
-                const isLunas = s.infaq === 'Lunas';
+                const statusInfaq = s.infaq || 'Belum Lunas';
+                if (filter !== 'All' && statusInfaq !== filter) return;
+                const isLunas = statusInfaq === 'Lunas';
+
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-mono text-xs">${s.id}</td>
-                        <td class="p-3 font-semibold text-slate-800">${s.nama}</td>
-                        <td class="p-3 text-xs">${s.kelas}</td>
-                        <td class="p-3 font-medium">${s.nominal}</td>
-                        <td class="p-3"><span id="infaq-badge-${s.id}" class="px-2.5 py-1 text-xs rounded-full font-bold ${isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.infaq}</span></td>
+                        <td class="p-3 font-mono text-xs">${s.id || '-'}</td>
+                        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
+                        <td class="p-3 text-xs">${s.kelas || '-'}</td>
+                        <td class="p-3 font-medium">${s.nominal || 'Rp 150.000'}</td>
+                        <td class="p-3"><span id="infaq-badge-${s.id}" class="px-2.5 py-1 text-xs rounded-full font-bold ${isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${statusInfaq}</span></td>
                         <td class="p-3 text-center">
                             <button onclick="toggleInfaq('${s.id}')" class="text-xs bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-1 rounded font-medium text-slate-700">Ubah Status</button>
                         </td>
@@ -525,24 +624,33 @@
             }
         }
 
-        // Generate Rapor Card
+        // 9. Cetak Rapor Santri
         function renderRaporSelect() {
             const select = document.getElementById('rapor-select-santri');
+            if (!select) return;
+
             select.innerHTML = santriList.map(s => `<option value="${s.id}">${s.nama} (${s.kelas})</option>`).join('');
             generateRaporCard();
         }
 
         function generateRaporCard() {
-            const selectedId = document.getElementById('rapor-select-santri').value;
+            const selectElem = document.getElementById('rapor-select-santri');
+            if (!selectElem) return;
+
+            const selectedId = selectElem.value;
             const santri = santriList.find(s => s.id === selectedId) || santriList[0];
             const container = document.getElementById('rapor-card-details');
 
+            if (!santri || !container) return;
+
+            const kehadiranVal = parseFloat(santri.kehadiran) || 100;
+
             container.innerHTML = `
                 <div class="grid grid-cols-2 gap-4 text-sm mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
-                    <div><span class="text-slate-500">Nama Santri:</span> <strong class="text-slate-800">${santri.nama}</strong></div>
-                    <div><span class="text-slate-500">Kelompok Kelas:</span> <strong>${santri.kelas}</strong></div>
-                    <div><span class="text-slate-500">Wali Santri:</span> <strong>${santri.wali}</strong></div>
-                    <div><span class="text-slate-500">Kehadiran Semester:</span> <strong class="${santri.kehadiran >= 80 ? 'text-emerald-600' : 'text-red-600'}">${santri.kehadiran}%</strong></div>
+                    <div><span class="text-slate-500">Nama Santri:</span> <strong class="text-slate-800">${santri.nama || '-'}</strong></div>
+                    <div><span class="text-slate-500">Kelompok Kelas:</span> <strong>${santri.kelas || '-'}</strong></div>
+                    <div><span class="text-slate-500">Wali Santri:</span> <strong>${santri.wali || '-'}</strong></div>
+                    <div><span class="text-slate-500">Kehadiran Semester:</span> <strong class="${kehadiranVal >= 80 ? 'text-emerald-600' : 'text-red-600'}">${kehadiranVal}%</strong></div>
                 </div>
 
                 <h4 class="font-bold text-slate-800 mb-2 text-sm uppercase">I. Capaian Hafalan & Tahsin</h4>
@@ -557,7 +665,7 @@
                     <tbody>
                         <tr>
                             <td class="p-2 border font-medium">Hafalan Al-Qur'an / Iqra</td>
-                            <td class="p-2 border">${santri.capaian}</td>
+                            <td class="p-2 border">${santri.capaian || '-'}</td>
                             <td class="p-2 border text-emerald-700 font-bold">Lancar (Mumtaz)</td>
                         </tr>
                         <tr>
@@ -574,18 +682,6 @@
                 </div>
             `;
         }
-
-        // Initialize Page
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
-            document.getElementById('presensi-date').valueAsDate = new Date();
-
-            renderSantriTable();
-            renderMutabaah();
-            renderPresensiTable();
-            renderInfaqTable();
-            renderRaporSelect();
-        });
     </script>
 </body>
 </html>
