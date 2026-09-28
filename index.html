@@ -78,11 +78,11 @@
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
                 <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
-                    <i class="fa-solid fa-book-quran text-xl"></i>
+                    <i class="fa-solid fa-layer-group text-xl"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500 font-medium">Kelas Al-Qur'an</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="total-alquran">0</h3>
+                    <p class="text-xs text-slate-500 font-medium">Total Kelas</p>
+                    <h3 class="text-xl font-bold text-slate-800" id="total-kelas">7 Kelas</h3>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
@@ -90,8 +90,8 @@
                     <i class="fa-solid fa-book-open text-xl"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500 font-medium">Kelas Iqra</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="total-iqra">0</h3>
+                    <p class="text-xs text-slate-500 font-medium">Kelas Utama</p>
+                    <h3 class="text-sm font-bold text-slate-800">Kls 1A - Kls 3A</h3>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
@@ -131,12 +131,10 @@
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                     <h2 class="text-lg font-bold text-slate-800">Daftar Santri & Pembagian Kelas</h2>
-                    <div class="flex items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-3">
                         <input type="text" id="search-santri" onkeyup="filterSantriTable()" placeholder="Cari nama santri..." class="px-4 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        <select id="filter-kelas" onchange="filterSantriTable()" class="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <select id="filter-kelas" onchange="filterSantriTable()" class="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium">
                             <option value="All">Semua Kelas</option>
-                            <option value="Al-Qur'an">Kelas Al-Qur'an</option>
-                            <option value="Iqra">Kelas Iqra</option>
                         </select>
                     </div>
                 </div>
@@ -146,7 +144,7 @@
                             <tr>
                                 <th class="p-3">ID</th>
                                 <th class="p-3">Nama Santri</th>
-                                <th class="p-3">Kelas</th>
+                                <th class="p-3">Kelompok Kelas</th>
                                 <th class="p-3">Wali / Kontak</th>
                                 <th class="p-3">Capaian Saat Ini</th>
                                 <th class="p-3 text-center">Status</th>
@@ -208,7 +206,15 @@
                 </div>
 
                 <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                    <h3 class="text-base font-bold text-slate-800 mb-4">Riwayat Mutaba'ah Terbaru</h3>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                        <h3 class="text-base font-bold text-slate-800">Riwayat Mutaba'ah Terbaru</h3>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold text-slate-600">Filter Kelas:</span>
+                            <select id="filter-kelas-mutabaah" onchange="renderMutabaah()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
+                                <option value="All">Semua Kelas</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-slate-600">
                             <thead class="bg-slate-50 text-slate-700 font-semibold text-xs border-b border-slate-200">
@@ -237,9 +243,17 @@
                         <h2 class="text-lg font-bold text-slate-800">Presensi Kehadiran Santri</h2>
                         <p class="text-xs text-slate-500">Komitmen target kehadiran harian minimal <span class="font-bold text-emerald-700">80%</span> per bulan.</p>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs font-semibold text-slate-600">Tanggal:</span>
-                        <input type="date" id="presensi-date" class="px-3 py-1.5 text-sm border border-slate-200 rounded-lg">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold text-slate-600">Kelas:</span>
+                            <select id="filter-kelas-presensi" onchange="renderPresensiTable()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
+                                <option value="All">Semua Kelas</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold text-slate-600">Tanggal:</span>
+                            <input type="date" id="presensi-date" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg">
+                        </div>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -269,13 +283,21 @@
                         <h2 class="text-lg font-bold text-slate-800">Pencatatan Infaq Bulanan Santri</h2>
                         <p class="text-xs text-slate-500">Periode Pembayaran: <span class="font-semibold text-slate-700">September 2026</span></p>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs font-semibold text-slate-600">Status:</span>
-                        <select id="filter-infaq" onchange="renderInfaqTable()" class="px-3 py-1.5 text-sm border border-slate-200 rounded-lg">
-                            <option value="All">Semua Status</option>
-                            <option value="Lunas">Lunas</option>
-                            <option value="Belum Lunas">Belum Lunas</option>
-                        </select>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold text-slate-600">Kelas:</span>
+                            <select id="filter-kelas-infaq" onchange="renderInfaqTable()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
+                                <option value="All">Semua Kelas</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold text-slate-600">Status:</span>
+                            <select id="filter-infaq" onchange="renderInfaqTable()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
+                                <option value="All">Semua Status</option>
+                                <option value="Lunas">Lunas</option>
+                                <option value="Belum Lunas">Belum Lunas</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -303,10 +325,20 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 no-print">
                     <h3 class="text-base font-bold text-slate-800 mb-4">Pilih Santri</h3>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Santri</label>
-                    <select id="rapor-select-santri" onchange="generateRaporCard()" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg mb-4">
-                        <!-- Dynamic Data -->
-                    </select>
+                    <div class="space-y-4 mb-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Filter Kelas</label>
+                            <select id="filter-kelas-rapor" onchange="renderRaporSelect()" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg font-medium">
+                                <option value="All">Semua Kelas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Santri</label>
+                            <select id="rapor-select-santri" onchange="generateRaporCard()" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg">
+                                <!-- Dynamic Data -->
+                            </select>
+                        </div>
+                    </div>
                     <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 px-4 rounded-lg text-sm shadow-sm flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-print"></i>
                         <span>Cetak / Print Rapor (PDF)</span>
@@ -355,10 +387,13 @@
         </div>
     </footer>
 
-    <!-- JavaScript Data Logic (Diakses via WEB_APP_URL) -->
+    <!-- JavaScript Data Logic -->
     <script>
         // TEMPELKAN URL HASIL DEPLOY GOOGLE APPS SCRIPT ANDA DI SINI
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyh55QS4orn1ROVlx--ETXsfbFSCn2iSvMqE7o68enLpZ5EjH3Z40Jlz3hfvWJ25Oo/exec";
+
+        // Daftar Kelas Default Sesuai Kebutuhan Lembaga
+        const defaultKelasList = ["Kls 1A", "Kls 1B", "Kls 1C", "Kls 1D", "Kls 2A", "Kls 2B", "Kls 3A"];
 
         let santriList = [];
         let mutabaahLogs = [];
@@ -386,7 +421,10 @@
                 const resMutabaah = await fetch(`${WEB_APP_URL}?action=getMutabaah`);
                 mutabaahLogs = await resMutabaah.json();
 
-                // Render ke tampilan
+                // Isikan Pilihan Kelas ke Seluruh Menu Filter
+                populateKelasDropdowns();
+
+                // Render Awal Tampilan
                 renderSantriTable();
                 renderMutabaah();
                 renderPresensiTable();
@@ -398,27 +436,52 @@
             }
         }
 
-        // 3. Update Metric Cards
+        // 3. Mengisi Dropdown Filter Kelas Secara Dinamis (1A, 1B, 1C, 1D, 2A, 2B, 3A + Kelas Lain)
+        function populateKelasDropdowns() {
+            // Gabungkan kelas default dengan kelas unik yang ada di data Google Sheets
+            const sheetsClasses = santriList.map(s => s.kelas).filter(Boolean);
+            const allUniqueClasses = [...new Set([...defaultKelasList, ...sheetsClasses])].sort();
+
+            const filterIds = [
+                'filter-kelas',          // Menu Data Santri
+                'filter-kelas-mutabaah', // Menu Mutaba'ah Hafalan
+                'filter-kelas-presensi', // Menu Presensi Kehadiran
+                'filter-kelas-infaq',    // Menu Infaq Bulanan
+                'filter-kelas-rapor'     // Menu Cetak Rapor
+            ];
+
+            filterIds.forEach(id => {
+                const selectElem = document.getElementById(id);
+                if (selectElem) {
+                    const currentVal = selectElem.value;
+                    selectElem.innerHTML = `<option value="All">Semua Kelas</option>`;
+                    allUniqueClasses.forEach(kls => {
+                        selectElem.innerHTML += `<option value="${kls}">${kls}</option>`;
+                    });
+                    if (currentVal && allUniqueClasses.includes(currentVal)) {
+                        selectElem.value = currentVal;
+                    }
+                }
+            });
+
+            // Update statistik total kelas
+            const totalKelasElem = document.getElementById('total-kelas');
+            if (totalKelasElem) totalKelasElem.innerText = `${allUniqueClasses.length} Kelas`;
+        }
+
+        // 4. Update Metric Cards
         function updateMetrics() {
             const totalSantriElem = document.getElementById('total-santri');
-            const totalAlquranElem = document.getElementById('total-alquran');
-            const totalIqraElem = document.getElementById('total-iqra');
             const avgKehadiranElem = document.getElementById('avg-kehadiran');
 
             if (totalSantriElem) totalSantriElem.innerText = santriList.length;
-            if (totalAlquranElem) {
-                totalAlquranElem.innerText = santriList.filter(s => s.kelas === "Al-Qur'an").length;
-            }
-            if (totalIqraElem) {
-                totalIqraElem.innerText = santriList.filter(s => s.kelas === "Iqra").length;
-            }
             if (avgKehadiranElem && santriList.length > 0) {
                 const totalKehadiran = santriList.reduce((acc, s) => acc + (parseFloat(s.kehadiran) || 0), 0);
                 avgKehadiranElem.innerText = (totalKehadiran / santriList.length).toFixed(1) + "%";
             }
         }
 
-        // 4. Tab Navigation
+        // 5. Tab Navigation
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-brand-600', 'text-brand-600');
@@ -438,23 +501,39 @@
             }
         }
 
-        // 5. Render Data Santri
-        function renderSantriTable(data = santriList) {
+        // 6. MENU 1: RENDER & FILTER DATA SANTRI
+        function renderSantriTable() {
+            filterSantriTable();
+        }
+
+        function filterSantriTable() {
+            const searchElem = document.getElementById('search-santri');
+            const kelasElem = document.getElementById('filter-kelas');
+            
+            const search = searchElem ? searchElem.value.toLowerCase() : '';
+            const selectedKelas = kelasElem ? kelasElem.value : 'All';
+
+            const filtered = santriList.filter(s => {
+                const matchSearch = (s.nama || '').toLowerCase().includes(search);
+                const matchKelas = (selectedKelas === 'All') || (s.kelas === selectedKelas);
+                return matchSearch && matchKelas;
+            });
+
             const tbody = document.getElementById('santri-tbody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Memuat data dari Google Sheets...</td></tr>`;
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada santri di ${selectedKelas === 'All' ? 'database' : 'kelas ' + selectedKelas}.</td></tr>`;
                 return;
             }
 
-            data.forEach(s => {
+            filtered.forEach(s => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 font-mono text-xs font-semibold">${s.id || '-'}</td>
                         <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
-                        <td class="p-3"><span class="px-2.5 py-1 text-xs rounded-full ${s.kelas === "Al-Qur'an" ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}">${s.kelas || '-'}</span></td>
+                        <td class="p-3"><span class="px-2.5 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-medium">${s.kelas || '-'}</span></td>
                         <td class="p-3 text-xs">${s.wali || '-'}<br><span class="text-slate-400">${s.hp || ''}</span></td>
                         <td class="p-3 font-medium text-slate-700">${s.capaian || '-'}</td>
                         <td class="p-3 text-center"><span class="px-2 py-0.5 text-xs rounded bg-emerald-100 text-emerald-800 font-medium">Aktif</span></td>
@@ -463,42 +542,39 @@
             });
         }
 
-        function filterSantriTable() {
-            const searchElem = document.getElementById('search-santri');
-            const kelasElem = document.getElementById('filter-kelas');
-            
-            const search = searchElem ? searchElem.value.toLowerCase() : '';
-            const kelas = kelasElem ? kelasElem.value : 'All';
-
-            const filtered = santriList.filter(s => {
-                const matchSearch = (s.nama || '').toLowerCase().includes(search);
-                const matchKelas = (kelas === 'All') || (s.kelas === kelas);
-                return matchSearch && matchKelas;
-            });
-            renderSantriTable(filtered);
-        }
-
-        // 6. Render & Simpan Mutaba'ah
+        // 7. MENU 2: RENDER & FILTER MUTABA'AH HAFALAN
         function renderMutabaah() {
-            const tbody = document.getElementById('mutabaah-tbody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
+            const selectedKelas = document.getElementById('filter-kelas-mutabaah') ? document.getElementById('filter-kelas-mutabaah').value : 'All';
 
-            mutabaahLogs.forEach(m => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3 text-xs text-slate-500">${m.tanggal || '-'}</td>
-                        <td class="p-3 font-semibold text-slate-800">${m.nama || '-'}</td>
-                        <td class="p-3 font-medium">${m.capaian || '-'}</td>
-                        <td class="p-3"><span class="px-2 py-1 text-xs rounded bg-emerald-50 text-emerald-700 font-medium">${m.kelancaran || '-'}</span></td>
-                        <td class="p-3 text-xs italic text-slate-500">${m.catatan || '-'}</td>
-                    </tr>
-                `;
+            const filteredLogs = mutabaahLogs.filter(m => {
+                const santri = santriList.find(s => s.nama === m.nama);
+                return (selectedKelas === 'All') || (santri && santri.kelas === selectedKelas);
             });
 
-            const select = document.getElementById('mutabaah-santri');
-            if (select) {
-                select.innerHTML = santriList.map(s => `<option value="${s.nama}">${s.nama} (${s.kelas})</option>`).join('');
+            const tbody = document.getElementById('mutabaah-tbody');
+            if (tbody) {
+                tbody.innerHTML = '';
+                if (filteredLogs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada riwayat mutaba'ah untuk ${selectedKelas === 'All' ? 'semua kelas' : 'kelas ' + selectedKelas}.</td></tr>`;
+                } else {
+                    filteredLogs.forEach(m => {
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 text-xs text-slate-500">${m.tanggal || '-'}</td>
+                                <td class="p-3 font-semibold text-slate-800">${m.nama || '-'}</td>
+                                <td class="p-3 font-medium">${m.capaian || '-'}</td>
+                                <td class="p-3"><span class="px-2 py-1 text-xs rounded bg-emerald-50 text-emerald-700 font-medium">${m.kelancaran || '-'}</span></td>
+                                <td class="p-3 text-xs italic text-slate-500">${m.catatan || '-'}</td>
+                            </tr>
+                        `;
+                    });
+                }
+            }
+
+            const selectForm = document.getElementById('mutabaah-santri');
+            if (selectForm) {
+                const santriFormFiltered = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+                selectForm.innerHTML = santriFormFiltered.map(s => `<option value="${s.nama}">${s.nama} (${s.kelas})</option>`).join('');
             }
         }
 
@@ -524,7 +600,6 @@
                 catatan: catatan
             };
 
-            // Tambah sementara ke UI
             mutabaahLogs.unshift(newLog);
             renderMutabaah();
 
@@ -547,13 +622,21 @@
             document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
         }
 
-        // 7. Render Presensi
+        // 8. MENU 3: RENDER & FILTER PRESENSI
         function renderPresensiTable() {
+            const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
             const tbody = document.getElementById('presensi-tbody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            santriList.forEach(s => {
+            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+
+            if (filteredSantri.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada santri di ${selectedKelas === 'All' ? 'database' : 'kelas ' + selectedKelas}.</td></tr>`;
+                return;
+            }
+
+            filteredSantri.forEach(s => {
                 const kehadiranVal = parseFloat(s.kehadiran) || 100;
                 const isBelowTarget = kehadiranVal < 80;
 
@@ -588,17 +671,30 @@
             }
         }
 
-        // 8. Render Infaq
+        // 9. MENU 4: RENDER & FILTER INFAQ
         function renderInfaqTable() {
-            const filterElem = document.getElementById('filter-infaq');
-            const filter = filterElem ? filterElem.value : 'All';
+            const filterStatusElem = document.getElementById('filter-infaq');
+            const filterStatus = filterStatusElem ? filterStatusElem.value : 'All';
+            const selectedKelas = document.getElementById('filter-kelas-infaq') ? document.getElementById('filter-kelas-infaq').value : 'All';
+
             const tbody = document.getElementById('infaq-tbody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            santriList.forEach(s => {
+            const filteredSantri = santriList.filter(s => {
                 const statusInfaq = s.infaq || 'Belum Lunas';
-                if (filter !== 'All' && statusInfaq !== filter) return;
+                const matchStatus = (filterStatus === 'All') || (statusInfaq === filterStatus);
+                const matchKelas = (selectedKelas === 'All') || (s.kelas === selectedKelas);
+                return matchStatus && matchKelas;
+            });
+
+            if (filteredSantri.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data infaq untuk filter ini.</td></tr>`;
+                return;
+            }
+
+            filteredSantri.forEach(s => {
+                const statusInfaq = s.infaq || 'Belum Lunas';
                 const isLunas = statusInfaq === 'Lunas';
 
                 tbody.innerHTML += `
@@ -624,21 +720,30 @@
             }
         }
 
-        // 9. Cetak Rapor Santri
+        // 10. MENU 5: RENDER & FILTER CETAK RAPOR
         function renderRaporSelect() {
+            const selectedKelas = document.getElementById('filter-kelas-rapor') ? document.getElementById('filter-kelas-rapor').value : 'All';
             const select = document.getElementById('rapor-select-santri');
             if (!select) return;
 
-            select.innerHTML = santriList.map(s => `<option value="${s.id}">${s.nama} (${s.kelas})</option>`).join('');
+            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+
+            if (filteredSantri.length === 0) {
+                select.innerHTML = `<option value="">Tidak ada santri di ${selectedKelas === 'All' ? 'database' : 'kelas ' + selectedKelas}</option>`;
+                document.getElementById('rapor-card-details').innerHTML = `<p class="text-center text-slate-400 py-6">Pilih kelas yang memiliki data santri.</p>`;
+                return;
+            }
+
+            select.innerHTML = filteredSantri.map(s => `<option value="${s.id}">${s.nama} (${s.kelas})</option>`).join('');
             generateRaporCard();
         }
 
         function generateRaporCard() {
             const selectElem = document.getElementById('rapor-select-santri');
-            if (!selectElem) return;
+            if (!selectElem || !selectElem.value) return;
 
             const selectedId = selectElem.value;
-            const santri = santriList.find(s => s.id === selectedId) || santriList[0];
+            const santri = santriList.find(s => s.id === selectedId);
             const container = document.getElementById('rapor-card-details');
 
             if (!santri || !container) return;
