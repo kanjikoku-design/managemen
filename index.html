@@ -91,7 +91,7 @@
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium">Kelas Utama</p>
-                    <h3 class="text-sm font-bold text-slate-800">Kls 1A - Kls 3A</h3>
+                    <h3 class="text-xs font-bold text-slate-800">Kls 1A - Kls 3A</h3>
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center space-x-4">
@@ -161,6 +161,7 @@
         <!-- TAB CONTENT 2: MUTABA'AH HAFALAN -->
         <div id="content-mutabaah" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Form Input -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center space-x-2">
                         <i class="fa-solid fa-plus-circle text-brand-600"></i>
@@ -205,6 +206,7 @@
                     </form>
                 </div>
 
+                <!-- Riwayat Tabel Mutaba'ah -->
                 <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
                         <h3 class="text-base font-bold text-slate-800">Riwayat Mutaba'ah Terbaru</h3>
@@ -224,6 +226,7 @@
                                     <th class="p-3">Capaian</th>
                                     <th class="p-3">Kelancaran</th>
                                     <th class="p-3">Catatan</th>
+                                    <th class="p-3 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="mutabaah-tbody" class="divide-y divide-slate-100">
@@ -241,7 +244,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <div>
                         <h2 class="text-lg font-bold text-slate-800">Presensi Kehadiran Santri</h2>
-                        <p class="text-xs text-slate-500">Komitmen target kehadiran harian minimal <span class="font-bold text-emerald-700">80%</span> per bulan.</p>
+                        <p class="text-xs text-slate-500">Komitmen target kehadiran harian minimal <span class="font-bold text-emerald-700">80%</span> per bulan[cite: 1, 5].</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
                         <div class="flex items-center space-x-2">
@@ -380,6 +383,49 @@
 
     </main>
 
+    <!-- MODAL POP-UP EDIT MUTABA'AH -->
+    <div id="modal-edit-mutabaah" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-xl shadow-xl border border-slate-200 max-w-lg w-full p-6 mx-4">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h3 class="text-base font-bold text-slate-800">Edit Data Setoran Mutaba'ah</h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="form-edit-hafalan" onsubmit="submitUpdateHafalan(event)" class="space-y-4">
+                <input type="hidden" id="edit-id-mutabaah">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Santri</label>
+                    <input type="text" id="edit-mutabaah-nama" readonly class="w-full px-3 py-2 text-sm bg-slate-100 border border-slate-200 rounded-lg text-slate-500 cursor-not-allowed">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Setoran</label>
+                    <input type="date" id="edit-mutabaah-tanggal" required class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Capaian (Juz / Surah / Halaman)</label>
+                    <input type="text" id="edit-mutabaah-capaian" required class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tingkat Kelancaran</label>
+                    <select id="edit-mutabaah-kelancaran" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500">
+                        <option value="Lancar (Mumtaz)">Lancar (Mumtaz)</option>
+                        <option value="Cukup (Jayyid)">Cukup (Jayyid)</option>
+                        <option value="Perlu Perbaikan (Muraja'ah)">Perlu Perbaikan (Muraja'ah)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan Ustaz/Ustazah</label>
+                    <textarea id="edit-mutabaah-catatan" rows="3" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500"></textarea>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200">Batal</button>
+                    <button type="submit" id="btn-update-hafalan" class="px-4 py-2 text-xs font-semibold text-white bg-brand-600 rounded-lg hover:bg-brand-700">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 mt-auto no-print">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
@@ -390,15 +436,15 @@
     <!-- JavaScript Data Logic -->
     <script>
         // TEMPELKAN URL HASIL DEPLOY GOOGLE APPS SCRIPT ANDA DI SINI
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyh55QS4orn1ROVlx--ETXsfbFSCn2iSvMqE7o68enLpZ5EjH3Z40Jlz3hfvWJ25Oo/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx.../exec";
 
-        // Daftar Kelas Default Sesuai Kebutuhan Lembaga
+        // List Kelas Default
         const defaultKelasList = ["Kls 1A", "Kls 1B", "Kls 1C", "Kls 1D", "Kls 2A", "Kls 2B", "Kls 3A"];
 
         let santriList = [];
         let mutabaahLogs = [];
 
-        // 1. Inisialisasi Saat Halaman Web Dimuat
+        // 1. Inisialisasi Halaman
         document.addEventListener('DOMContentLoaded', () => {
             if (document.getElementById('mutabaah-tanggal')) {
                 document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
@@ -410,21 +456,19 @@
             fetchDataFromSheets();
         });
 
-        // 2. Fetch Data dari Google Sheets via WEB_APP_URL
+        // 2. Fetch Data dari Google Sheets via API
         async function fetchDataFromSheets() {
             try {
-                // Ambil Data Santri
+                // Fetch Santri
                 const resSantri = await fetch(`${WEB_APP_URL}?action=getSantri`);
                 santriList = await resSantri.json();
 
-                // Ambil Data Mutaba'ah
+                // Fetch Mutaba'ah
                 const resMutabaah = await fetch(`${WEB_APP_URL}?action=getMutabaah`);
                 mutabaahLogs = await resMutabaah.json();
 
-                // Isikan Pilihan Kelas ke Seluruh Menu Filter
                 populateKelasDropdowns();
 
-                // Render Awal Tampilan
                 renderSantriTable();
                 renderMutabaah();
                 renderPresensiTable();
@@ -436,18 +480,17 @@
             }
         }
 
-        // 3. Mengisi Dropdown Filter Kelas Secara Dinamis (1A, 1B, 1C, 1D, 2A, 2B, 3A + Kelas Lain)
+        // 3. Populate Filter Dropdown Kelas
         function populateKelasDropdowns() {
-            // Gabungkan kelas default dengan kelas unik yang ada di data Google Sheets
             const sheetsClasses = santriList.map(s => s.kelas).filter(Boolean);
             const allUniqueClasses = [...new Set([...defaultKelasList, ...sheetsClasses])].sort();
 
             const filterIds = [
-                'filter-kelas',          // Menu Data Santri
-                'filter-kelas-mutabaah', // Menu Mutaba'ah Hafalan
-                'filter-kelas-presensi', // Menu Presensi Kehadiran
-                'filter-kelas-infaq',    // Menu Infaq Bulanan
-                'filter-kelas-rapor'     // Menu Cetak Rapor
+                'filter-kelas',          
+                'filter-kelas-mutabaah', 
+                'filter-kelas-presensi', 
+                'filter-kelas-infaq',    
+                'filter-kelas-rapor'     
             ];
 
             filterIds.forEach(id => {
@@ -464,12 +507,11 @@
                 }
             });
 
-            // Update statistik total kelas
             const totalKelasElem = document.getElementById('total-kelas');
             if (totalKelasElem) totalKelasElem.innerText = `${allUniqueClasses.length} Kelas`;
         }
 
-        // 4. Update Metric Cards
+        // 4. Update Header Metrics
         function updateMetrics() {
             const totalSantriElem = document.getElementById('total-santri');
             const avgKehadiranElem = document.getElementById('avg-kehadiran');
@@ -481,7 +523,7 @@
             }
         }
 
-        // 5. Tab Navigation
+        // 5. Navigation Tab Switcher
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-brand-600', 'text-brand-600');
@@ -501,7 +543,7 @@
             }
         }
 
-        // 6. MENU 1: RENDER & FILTER DATA SANTRI
+        // 6. Menu 1: Render & Filter Santri
         function renderSantriTable() {
             filterSantriTable();
         }
@@ -542,7 +584,7 @@
             });
         }
 
-        // 7. MENU 2: RENDER & FILTER MUTABA'AH HAFALAN
+        // 7. Menu 2: Render Mutaba'ah, Edit & Delete Logic
         function renderMutabaah() {
             const selectedKelas = document.getElementById('filter-kelas-mutabaah') ? document.getElementById('filter-kelas-mutabaah').value : 'All';
 
@@ -555,9 +597,10 @@
             if (tbody) {
                 tbody.innerHTML = '';
                 if (filteredLogs.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada riwayat mutaba'ah untuk ${selectedKelas === 'All' ? 'semua kelas' : 'kelas ' + selectedKelas}.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada riwayat mutaba'ah untuk ${selectedKelas === 'All' ? 'semua kelas' : 'kelas ' + selectedKelas}.</td></tr>`;
                 } else {
-                    filteredLogs.forEach(m => {
+                    filteredLogs.forEach((m, index) => {
+                        const logId = m.id || index;
                         tbody.innerHTML += `
                             <tr class="hover:bg-slate-50">
                                 <td class="p-3 text-xs text-slate-500">${m.tanggal || '-'}</td>
@@ -565,6 +608,16 @@
                                 <td class="p-3 font-medium">${m.capaian || '-'}</td>
                                 <td class="p-3"><span class="px-2 py-1 text-xs rounded bg-emerald-50 text-emerald-700 font-medium">${m.kelancaran || '-'}</span></td>
                                 <td class="p-3 text-xs italic text-slate-500">${m.catatan || '-'}</td>
+                                <td class="p-3 text-center whitespace-nowrap">
+                                    <div class="flex items-center justify-center space-x-1">
+                                        <button onclick="openEditModal('${logId}')" title="Edit Data" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                        <button onclick="deleteHafalan('${logId}', '${m.nama}')" title="Hapus Data" class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         `;
                     });
@@ -622,7 +675,95 @@
             document.getElementById('mutabaah-tanggal').valueAsDate = new Date();
         }
 
-        // 8. MENU 3: RENDER & FILTER PRESENSI
+        // Buka Modal Edit
+        function openEditModal(id) {
+            const log = mutabaahLogs.find((m, index) => (m.id == id || index == id));
+            if (!log) return;
+
+            document.getElementById('edit-id-mutabaah').value = id;
+            document.getElementById('edit-mutabaah-nama').value = log.nama || '';
+            document.getElementById('edit-mutabaah-tanggal').value = log.tanggal || '';
+            document.getElementById('edit-mutabaah-capaian').value = log.capaian || '';
+            document.getElementById('edit-mutabaah-kelancaran').value = log.kelancaran || 'Lancar (Mumtaz)';
+            document.getElementById('edit-mutabaah-catatan').value = log.catatan || '';
+
+            document.getElementById('modal-edit-mutabaah').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('modal-edit-mutabaah').classList.add('hidden');
+        }
+
+        // Submit Update ke Sheets
+        async function submitUpdateHafalan(e) {
+            e.preventDefault();
+            const btnUpdate = document.getElementById('btn-update-hafalan');
+            btnUpdate.disabled = true;
+            btnUpdate.innerText = "Memproses...";
+
+            const id = document.getElementById('edit-id-mutabaah').value;
+            const updateData = {
+                action: "updateHafalan",
+                id: id,
+                nama: document.getElementById('edit-mutabaah-nama').value,
+                tanggal: document.getElementById('edit-mutabaah-tanggal').value,
+                capaian: document.getElementById('edit-mutabaah-capaian').value,
+                kelancaran: document.getElementById('edit-mutabaah-kelancaran').value,
+                catatan: document.getElementById('edit-mutabaah-catatan').value
+            };
+
+            const logIndex = mutabaahLogs.findIndex((m, index) => (m.id == id || index == id));
+            if (logIndex !== -1) {
+                mutabaahLogs[logIndex] = { ...mutabaahLogs[logIndex], ...updateData };
+                renderMutabaah();
+            }
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updateData)
+                });
+                alert("Data mutaba'ah berhasil diperbarui!");
+            } catch (error) {
+                console.error("Gagal memperbarui:", error);
+                alert("Gagal memperbarui data di Google Sheets.");
+            }
+
+            btnUpdate.disabled = false;
+            btnUpdate.innerText = "Simpan Perubahan";
+            closeEditModal();
+        }
+
+        // Hapus Data Mutaba'ah
+        async function deleteHafalan(id, nama) {
+            if (!confirm(`Apakah Anda yakin ingin menghapus data setoran hafalan untuk ${nama}?`)) return;
+
+            const payload = {
+                action: "deleteHafalan",
+                id: id,
+                nama: nama
+            };
+
+            mutabaahLogs = mutabaahLogs.filter((m, index) => (m.id != id && index != id));
+            renderMutabaah();
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                alert("Data mutaba'ah berhasil dihapus!");
+            } catch (error) {
+                console.error("Gagal menghapus:", error);
+                alert("Gagal menghapus data di Google Sheets.");
+            }
+        }
+
+        // 8. Menu 3: Presensi Kehadiran
         function renderPresensiTable() {
             const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
             const tbody = document.getElementById('presensi-tbody');
@@ -671,7 +812,7 @@
             }
         }
 
-        // 9. MENU 4: RENDER & FILTER INFAQ
+        // 9. Menu 4: Infaq Bulanan
         function renderInfaqTable() {
             const filterStatusElem = document.getElementById('filter-infaq');
             const filterStatus = filterStatusElem ? filterStatusElem.value : 'All';
@@ -720,7 +861,7 @@
             }
         }
 
-        // 10. MENU 5: RENDER & FILTER CETAK RAPOR
+        // 10. Menu 5: Cetak Rapor
         function renderRaporSelect() {
             const selectedKelas = document.getElementById('filter-kelas-rapor') ? document.getElementById('filter-kelas-rapor').value : 'All';
             const select = document.getElementById('rapor-select-santri');
