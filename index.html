@@ -877,7 +877,9 @@ async function savePresensi(id, nama, kelas, status) {
     console.error("Gagal menyimpan presensi:", err);
   }
 }
-
+// Di dalam fungsi renderPresensiTable():
+const logHariIni = presensiLogs.find(p => p.nama === s.nama && p.tanggal === selectedDate);
+const statusHariIni = logHariIni ? logHariIni.status : 'Belum Diabsen';
         // 9. Menu 4: Infaq Bulanan
         function renderInfaqTable() {
             const filterStatusElem = document.getElementById('filter-infaq');
