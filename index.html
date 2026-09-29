@@ -239,45 +239,7 @@
         </div>
 
         <!-- TAB CONTENT 3: PRESENSI KEHADIRAN -->
-        <div id="content-presensi" class="tab-content hidden">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div>
-                        <h2 class="text-lg font-bold text-slate-800">Presensi Kehadiran Santri</h2>
-                        <p class="text-xs text-slate-500">Komitmen target kehadiran harian minimal <span class="font-bold text-emerald-700">80%</span> per bulan[cite: 1, 5].</p>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xs font-semibold text-slate-600">Kelas:</span>
-                            <select id="filter-kelas-presensi" onchange="renderPresensiTable()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
-                                <option value="All">Semua Kelas</option>
-                            </select>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xs font-semibold text-slate-600">Tanggal:</span>
-                            <input type="date" id="presensi-date" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg">
-                        </div>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
-                        <thead class="bg-slate-50 text-slate-700 uppercase font-semibold text-xs border-b border-slate-200">
-                            <tr>
-                                <th class="p-3">Santri</th>
-                                <th class="p-3">Kelas</th>
-                                <th class="p-3">Tingkat Kehadiran (%)</th>
-                                <th class="p-3 text-center">Status Hari Ini</th>
-                                <th class="p-3 text-center">Aksi Quick Check</th>
-                            </tr>
-                        </thead>
-                        <tbody id="presensi-tbody" class="divide-y divide-slate-100">
-                            <!-- Dynamic Data -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- Header Filter Presensi -->
+         <!-- Header Filter Presensi -->
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
   <div>
     <h3 class="text-base font-bold text-slate-800">Presensi Kehadiran Santri</h3>
