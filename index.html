@@ -764,53 +764,119 @@
         }
 
         // 8. Menu 3: Presensi Kehadiran
-        function renderPresensiTable() {
-            const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
-            const tbody = document.getElementById('presensi-tbody');
-            if (!tbody) return;
-            tbody.innerHTML = '';
+        let presensiLogs = []; // Penampung riwayat presensi dari Google Sheets
 
-            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+// 1. Ambil Data Presensi dari Google Sheets
+async function fetchPresensiFromSheets() {
+  try {
+    const res = await fetch(`${WEB_APP_URL}?action=getPresensi`);
+    presensiLogs = await res.json();
+    renderPresensiTable();
+  } catch (err) {
+    console.error("Gagal mengambil data presensi:", err);
+  }
+}
 
-            if (filteredSantri.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada santri di ${selectedKelas === 'All' ? 'database' : 'kelas ' + selectedKelas}.</td></tr>`;
-                return;
-            }
+// Panggil fetchPresensiFromSheets() di dalam DOMContentLoaded / setelah fetchDataFromSheets()
 
-            filteredSantri.forEach(s => {
-                const kehadiranVal = parseFloat(s.kehadiran) || 100;
-                const isBelowTarget = kehadiranVal < 80;
+// 2. Render Tabel Presensi berdasarkan Filter Kelas dan Tanggal yang Dipilih
+function renderPresensiTable() {
+  const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
+  const selectedDate = document.getElementById('presensi-date') ? document.getElementById('presensi-date').value : '';
+  
+  const tbody = document.getElementById('presensi-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
 
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
-                        <td class="p-3 text-xs">${s.kelas || '-'}</td>
-                        <td class="p-3">
-                            <div class="flex items-center space-x-2">
-                                <span class="font-bold text-sm ${isBelowTarget ? 'text-red-600' : 'text-emerald-600'}">${kehadiranVal}%</span>
-                                ${isBelowTarget ? '<span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">&lt; 80% Target</span>' : ''}
-                            </div>
-                        </td>
-                        <td class="p-3 text-center"><span id="status-${s.id}" class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">Belum Diabsen</span></td>
-                        <td class="p-3 text-center">
-                            <div class="flex justify-center space-x-1">
-                                <button onclick="setPresensi('${s.id}', 'Hadir')" class="px-2 py-1 text-xs bg-emerald-600 text-white rounded hover:bg-emerald-700">Hadir</button>
-                                <button onclick="setPresensi('${s.id}', 'Izin')" class="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">Izin</button>
-                                <button onclick="setPresensi('${s.id}', 'Sakit')" class="px-2 py-1 text-xs bg-amber-500 text-white rounded hover:bg-amber-600">Sakit</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
+  // Filter santri berdasarkan kelas
+  const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
 
-        function setPresensi(id, status) {
-            const elem = document.getElementById(`status-${id}`);
-            if (elem) {
-                elem.innerText = status;
-                elem.className = `text-xs px-2 py-1 rounded font-bold ${status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' : status === 'Izin' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}`;
-            }
-        }
+  if (filteredSantri.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada santri di kelas ini.</td></tr>`;
+    return;
+  }
+
+  filteredSantri.forEach(s => {
+    // Cari status presensi santri ini berdasarkan tanggal yang sedang dipilih
+    const logHariIni = presensiLogs.find(p => p.id === s.id && p.tanggal === selectedDate);
+    const statusHariIni = logHariIni ? logHariIni.status : 'Belum Diabsen';
+
+    const kehadiranVal = parseFloat(s.kehadiran) || 100;
+    const isBelowTarget = kehadiranVal < 80;
+
+    // Menyesuaikan warna badge status
+    let badgeStyle = "bg-slate-100 text-slate-600";
+    if (statusHariIni === 'Hadir') badgeStyle = "bg-emerald-100 text-emerald-800 font-bold";
+    else if (statusHariIni === 'Izin') badgeStyle = "bg-blue-100 text-blue-800 font-bold";
+    else if (statusHariIni === 'Sakit') badgeStyle = "bg-amber-100 text-amber-800 font-bold";
+
+    tbody.innerHTML += `
+      <tr class="hover:bg-slate-50">
+        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
+        <td class="p-3 text-xs">${s.kelas || '-'}</td>
+        <td class="p-3">
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-sm ${isBelowTarget ? 'text-red-600' : 'text-emerald-600'}">${kehadiranVal}%</span>
+            ${isBelowTarget ? '<span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">&lt; 80% Target</span>' : ''}
+          </div>
+        </td>
+        <td class="p-3 text-center">
+          <span id="status-${s.id}" class="text-xs px-2 py-1 rounded ${badgeStyle}">${statusHariIni}</span>
+        </td>
+        <td class="p-3 text-center">
+          <div class="flex justify-center space-x-1">
+            <button onclick="savePresensi('${s.id}', '${s.nama}', '${s.kelas}', 'Hadir')" class="px-2 py-1 text-xs bg-emerald-600 text-white rounded hover:bg-emerald-700">Hadir</button>
+            <button onclick="savePresensi('${s.id}', '${s.nama}', '${s.kelas}', 'Izin')" class="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">Izin</button>
+            <button onclick="savePresensi('${s.id}', '${s.nama}', '${s.kelas}', 'Sakit')" class="px-2 py-1 text-xs bg-amber-500 text-white rounded hover:bg-amber-600">Sakit</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+// 3. Simpan Status Presensi ke Google Sheets secara Real-Time
+async function savePresensi(id, nama, kelas, status) {
+  const tanggal = document.getElementById('presensi-date').value;
+  if (!tanggal) {
+    alert("Pilih tanggal presensi terlebih dahulu!");
+    return;
+  }
+
+  // Update Tampilan UI Secara Langsung
+  const badgeElem = document.getElementById(`status-${id}`);
+  if (badgeElem) {
+    badgeElem.innerText = status;
+    badgeElem.className = `text-xs px-2 py-1 rounded font-bold ${status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' : status === 'Izin' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}`;
+  }
+
+  // Update Data Lokal
+  const existingIndex = presensiLogs.findIndex(p => p.id === id && p.tanggal === tanggal);
+  if (existingIndex !== -1) {
+    presensiLogs[existingIndex].status = status;
+  } else {
+    presensiLogs.push({ tanggal, id, nama, kelas, status });
+  }
+
+  // Kirim ke Google Sheets via POST Request
+  try {
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "savePresensi",
+        tanggal: tanggal,
+        id: id,
+        nama: nama,
+        kelas: kelas,
+        status: status
+      })
+    });
+  } catch (err) {
+    console.error("Gagal menyimpan presensi:", err);
+  }
+}
 
         // 9. Menu 4: Infaq Bulanan
         function renderInfaqTable() {
