@@ -249,19 +249,19 @@
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-2">
-<!-- Filter Kelas Presensi -->
-<div class="flex items-center space-x-1">
-    <label class="text-xs font-semibold text-slate-600">Kelas:</label>
-    <select id="filter-kelas-presensi" onchange="onPresensiDateChange()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium focus:ring-2 focus:ring-brand-500">
-        <option value="All">Semua Kelas</option>
-    </select>
-</div>
+                        <!-- Filter Kelas Presensi -->
+                        <div class="flex items-center space-x-1">
+                            <label class="text-xs font-semibold text-slate-600">Kelas:</label>
+                            <select id="filter-kelas-presensi" onchange="onPresensiDateChange()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium focus:ring-2 focus:ring-brand-500">
+                                <option value="All">Semua Kelas</option>
+                            </select>
+                        </div>
 
-<!-- Filter Tanggal -->
-<div class="flex items-center space-x-1">
-    <label class="text-xs font-semibold text-slate-600">Tanggal:</label>
-    <input type="date" id="presensi-date" onchange="onPresensiDateChange()" class="px-3 py-1.5 text-sm border border-slate-200 rounded-lg">
-</div>
+                        <!-- Filter Tanggal -->
+                        <div class="flex items-center space-x-1">
+                            <label class="text-xs font-semibold text-slate-600">Tanggal:</label>
+                            <input type="date" id="presensi-date" onchange="onPresensiDateChange()" class="px-3 py-1.5 text-sm border border-slate-200 rounded-lg">
+                        </div>
 
                         <!-- Tombol Kirim / Simpan Massal -->
                         <button onclick="submitBatchPresensi()" id="btn-kirim-presensi" class="px-3 py-1.5 text-xs bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg shadow-sm transition flex items-center space-x-1">
@@ -290,22 +290,31 @@
             </div>
         </div>
 
-        <!-- TAB CONTENT 4: INFAQ BULANAN -->
+        <!-- TAB CONTENT 4: INFAQ BULANAN (SISTEM SAMA DENGAN PRESENSI) -->
         <div id="content-infaq" class="tab-content hidden">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <div>
                         <h2 class="text-lg font-bold text-slate-800">Pencatatan Infaq Bulanan Santri</h2>
-                        <p class="text-xs text-slate-500">Periode Pembayaran: <span class="font-semibold text-slate-700">September 2026</span></p>
+                        <p class="text-xs text-slate-500">Periode Pembayaran: <span id="infaq-periode-label" class="font-semibold text-slate-700">September 2026</span></p>
                     </div>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="flex items-center space-x-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <!-- Filter Periode Bulan & Tahun -->
+                        <div class="flex items-center space-x-1">
+                            <span class="text-xs font-semibold text-slate-600">Bulan:</span>
+                            <input type="month" id="filter-bulan-infaq" onchange="onInfaqFilterChange()" value="2026-09" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <!-- Filter Kelas -->
+                        <div class="flex items-center space-x-1">
                             <span class="text-xs font-semibold text-slate-600">Kelas:</span>
                             <select id="filter-kelas-infaq" onchange="renderInfaqTable()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
                                 <option value="All">Semua Kelas</option>
                             </select>
                         </div>
-                        <div class="flex items-center space-x-2">
+
+                        <!-- Filter Status Bayar -->
+                        <div class="flex items-center space-x-1">
                             <span class="text-xs font-semibold text-slate-600">Status:</span>
                             <select id="filter-infaq" onchange="renderInfaqTable()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium">
                                 <option value="All">Semua Status</option>
@@ -313,13 +322,20 @@
                                 <option value="Belum Lunas">Belum Lunas</option>
                             </select>
                         </div>
+
+                        <!-- Tombol Submit Simpan Infaq Massal -->
+                        <button onclick="submitBatchInfaq()" id="btn-kirim-infaq" class="px-3 py-1.5 text-xs bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg shadow-sm transition flex items-center space-x-1">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Simpan Data Infaq</span>
+                        </button>
                     </div>
                 </div>
+
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-slate-600">
                         <thead class="bg-slate-50 text-slate-700 uppercase font-semibold text-xs border-b border-slate-200">
                             <tr>
-                                <th class="p-3">ID</th>
+                                <th class="p-3">ID Santri</th>
                                 <th class="p-3">Nama Santri</th>
                                 <th class="p-3">Kelas</th>
                                 <th class="p-3">Nominal Infaq</th>
@@ -383,7 +399,7 @@
                             <p class="font-underline">( .................................... )</p>
                         </div>
                         <div>
-                            <p>Bandung, 28 September 2026</p>
+                            <p>Bandung, 30 September 2026</p>
                             <p class="font-semibold mt-1">Ustaz / Ustazah Pengajar</p>
                             <div class="h-16"></div>
                             <p class="font-bold text-slate-800">( Pengasuh Al Arba )</p>
@@ -447,16 +463,18 @@
 
     <!-- JavaScript Data Logic -->
     <script>
-        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+        // URL WEB APP GOOGLE APPS SCRIPT
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyllWSZ8e9HApQDRSZCx7gDsYspVGk-sjldXPZC2SEXTL8MZxQP8IsjHWbcaZUeqkY/exec";
 
         const defaultKelasList = ["Kls 1A", "Kls 1B", "Kls 1C", "Kls 1D", "Kls 2A", "Kls 2B", "Kls 3A"];
 
-        // Global State Variables (Cukup dideklarasikan SEKALI di sini)
+        // Global State Variables
         let santriList = [];
         let mutabaahLogs = [];
         let presensiLogs = [];
+        let infaqLogs = [];
         let presensiTempState = {}; 
+        let infaqTempState = {}; // Penampung state temporary untuk Infaq Bulanan
 
         // 1. Inisialisasi Halaman
         document.addEventListener('DOMContentLoaded', () => {
@@ -473,15 +491,17 @@
         // 2. Fetch Data Semua Tab dari Google Sheets API
         async function fetchDataFromSheets() {
             try {
-                const [resSantri, resMutabaah, resPresensi] = await Promise.all([
+                const [resSantri, resMutabaah, resPresensi, resInfaq] = await Promise.all([
                     fetch(`${WEB_APP_URL}?action=getSantri`).then(r => r.json()),
                     fetch(`${WEB_APP_URL}?action=getMutabaah`).then(r => r.json()),
-                    fetch(`${WEB_APP_URL}?action=getPresensi`).then(r => r.json())
+                    fetch(`${WEB_APP_URL}?action=getPresensi`).then(r => r.json()),
+                    fetch(`${WEB_APP_URL}?action=getInfaq`).then(r => r.json())
                 ]);
 
                 santriList = resSantri || [];
                 mutabaahLogs = resMutabaah || [];
                 presensiLogs = resPresensi || [];
+                infaqLogs = resInfaq || [];
 
                 populateKelasDropdowns();
                 renderSantriTable();
@@ -745,236 +765,313 @@
         }
 
         // 8. Menu 3: Presensi Kehadiran
-    // Variable penampung status sementara sebelum dikirim
-
-// Fungsi penanganan saat input tanggal/kelas diubah di UI
-async function onPresensiDateChange() {
-    // 1. Kosongkan temporary state agar membaca status murni dari database untuk tanggal baru
-    presensiTempState = {};
-
-    // 2. Ambil (GET) data presensi paling baru dari Google Sheets
-    try {
-        const resPresensi = await fetch(`${WEB_APP_URL}?action=getPresensi`);
-        presensiLogs = await resPresensi.json();
-    } catch (err) {
-        console.error("Gagal mengambil data presensi:", err);
-    }
-
-    // 3. Render ulang tabel
-    renderPresensiTable();
-}
-
-// Fungsi Normalisasi Format Tanggal ke YYYY-MM-DD
-function normalizeDateString(dateVal) {
-    if (!dateVal) return "";
-    let str = dateVal.toString().trim();
-    if (str.includes("T")) str = str.split("T")[0];
-    if (str.includes("/")) {
-        const parts = str.split("/");
-        if (parts.length === 3 && parts[2].length === 4) {
-            return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-        }
-    }
-    return str;
-}
-
-// Render Tabel Presensi Berdasarkan Kelas & Tanggal yang Dipilih
-function renderPresensiTable() {
-    const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
-    const rawSelectedDate = document.getElementById('presensi-date') ? document.getElementById('presensi-date').value : '';
-    const selectedDate = normalizeDateString(rawSelectedDate);
-
-    const tbody = document.getElementById('presensi-tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-
-    const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
-
-    if (filteredSantri.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada santri pada kelas ini.</td></tr>`;
-        return;
-    }
-
-    filteredSantri.forEach(s => {
-        const namaClean = (s.nama || '').toString().trim().toLowerCase();
-
-        // Cari riwayat presensi di database berdasarkan NAMA SANTRI & TANGGAL
-        const existingLog = presensiLogs.find(p => {
-            const pNama = (p.nama || '').toString().trim().toLowerCase();
-            const pTgl = normalizeDateString(p.tanggal);
-            return pNama === namaClean && pTgl === selectedDate;
-        });
-
-        // ATURAN STATUS:
-        // 1. Jika pengguna baru mengklik tombol (Hadir/Izin/Sakit) di UI -> Pakai status temp
-        // 2. Jika tanggal tersebut SUDAH ADA di Google Sheets -> Tampilkan status DATABASE
-        // 3. Jika tanggal tersebut BELUM ADA di Google Sheets -> Kembali DEFAULT 'Belum Diabsen'
-        const currentStatus = presensiTempState[s.nama] || (existingLog ? existingLog.status : 'Belum Diabsen');
-
-        const kehadiranVal = parseFloat(s.kehadiran) || 100;
-        const isBelowTarget = kehadiranVal < 80;
-
-        let badgeStyle = "bg-slate-100 text-slate-500 font-medium";
-        if (currentStatus === 'Hadir') badgeStyle = "bg-emerald-100 text-emerald-800 font-bold";
-        else if (currentStatus === 'Izin') badgeStyle = "bg-blue-100 text-blue-800 font-bold";
-        else if (currentStatus === 'Sakit') badgeStyle = "bg-amber-100 text-amber-800 font-bold";
-
-        tbody.innerHTML += `
-            <tr class="hover:bg-slate-50">
-                <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
-                <td class="p-3 text-xs">${s.kelas || '-'}</td>
-                <td class="p-3">
-                    <div class="flex items-center space-x-2">
-                        <span class="font-bold text-sm ${isBelowTarget ? 'text-red-600' : 'text-emerald-600'}">${kehadiranVal}%</span>
-                        ${isBelowTarget ? '<span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">&lt; 80% Target</span>' : ''}
-                    </div>
-                </td>
-                <td class="p-3 text-center">
-                    <span id="status-${s.id}" class="text-xs px-2.5 py-1 rounded-full ${badgeStyle}">${currentStatus}</span>
-                </td>
-                <td class="p-3 text-center">
-                    <div class="flex justify-center space-x-1">
-                        <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Hadir')" class="px-2.5 py-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white rounded font-medium transition">Hadir</button>
-                        <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Izin')" class="px-2.5 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition">Izin</button>
-                        <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Sakit')" class="px-2.5 py-1 text-xs bg-amber-500 hover:bg-amber-600 text-white rounded font-medium transition">Sakit</button>
-                    </div>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-// Memilih Status Kehadiran Secara Real-Time (sebelum Submit)
-function selectPresensiStatus(id, nama, status) {
-    presensiTempState[nama] = status;
-    const badge = document.getElementById(`status-${id}`);
-    if (badge) {
-        badge.innerText = status;
-        badge.className = `text-xs px-2.5 py-1 rounded-full font-bold ${
-            status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' :
-            status === 'Izin' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'
-        }`;
-    }
-}
-
-// 2. Kirim Presensi Tanpa Menghapus Status yang Sudah Di-check
-async function submitBatchPresensi() {
-    const rawDate = document.getElementById('presensi-date') ? document.getElementById('presensi-date').value : '';
-    const tanggal = normalizeDateString(rawDate);
-    
-    if (!tanggal) {
-        alert("Pilih tanggal presensi terlebih dahulu!");
-        return;
-    }
-
-    const selectedKelas = document.getElementById('filter-kelas-presensi').value;
-    const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
-
-    const payloadData = filteredSantri.map(s => {
-        const namaClean = (s.nama || '').toString().trim();
-        
-        const existingLog = presensiLogs.find(p => {
-            const pNama = (p.nama || '').toString().trim().toLowerCase();
-            const pTgl = normalizeDateString(p.tanggal);
-            return pNama === namaClean.toLowerCase() && pTgl === tanggal;
-        });
-
-        const currentStatus = presensiTempState[namaClean] || (existingLog ? existingLog.status : 'Hadir');
-        presensiTempState[namaClean] = currentStatus;
-
-        return {
-            tanggal: tanggal,
-            id: s.id,
-            nama: s.nama,
-            kelas: s.kelas,
-            status: currentStatus
-        };
-    });
-
-    const btnKirim = document.getElementById('btn-kirim-presensi');
-    btnKirim.disabled = true;
-    btnKirim.innerText = "Mengirim...";
-
-    try {
-        await fetch(WEB_APP_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "saveBatchPresensi", records: payloadData })
-        });
-
-        alert(`Presensi tanggal ${tanggal} berhasil tersimpan ke Google Sheets!`);
-
-        // Update riwayat lokal
-        payloadData.forEach(item => {
-            const existingIndex = presensiLogs.findIndex(p => 
-                (p.nama || '').toString().trim().toLowerCase() === item.nama.trim().toLowerCase() && 
-                normalizeDateString(p.tanggal) === item.tanggal
-            );
-            if (existingIndex !== -1) {
-                presensiLogs[existingIndex].status = item.status;
-            } else {
-                presensiLogs.push(item);
+        async function onPresensiDateChange() {
+            presensiTempState = {};
+            try {
+                const resPresensi = await fetch(`${WEB_APP_URL}?action=getPresensi`);
+                presensiLogs = await resPresensi.json();
+            } catch (err) {
+                console.error("Gagal mengambil data presensi:", err);
             }
-        });
+            renderPresensiTable();
+        }
 
-        renderPresensiTable();
+        function renderPresensiTable() {
+            const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
+            const rawSelectedDate = document.getElementById('presensi-date') ? document.getElementById('presensi-date').value : '';
+            const selectedDate = normalizeDateString(rawSelectedDate);
 
-    } catch (err) {
-        console.error("Gagal mengirim presensi:", err);
-        alert("Gagal terhubung ke Google Sheets.");
-    }
-
-    btnKirim.disabled = false;
-    btnKirim.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Kirim Presensi</span>`;
-}
-
-        // 9. Menu 4: Infaq Bulanan
-        function renderInfaqTable() {
-            const filterStatus = document.getElementById('filter-infaq') ? document.getElementById('filter-infaq').value : 'All';
-            const selectedKelas = document.getElementById('filter-kelas-infaq') ? document.getElementById('filter-kelas-infaq').value : 'All';
-
-            const tbody = document.getElementById('infaq-tbody');
+            const tbody = document.getElementById('presensi-tbody');
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            const filteredSantri = santriList.filter(s => {
-                const statusInfaq = s.infaq || 'Belum Lunas';
-                const matchStatus = (filterStatus === 'All') || (statusInfaq === filterStatus);
-                const matchKelas = (selectedKelas === 'All') || (s.kelas === selectedKelas);
-                return matchStatus && matchKelas;
-            });
+            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
 
             if (filteredSantri.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data infaq.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada santri pada kelas ini.</td></tr>`;
                 return;
             }
 
             filteredSantri.forEach(s => {
-                const statusInfaq = s.infaq || 'Belum Lunas';
-                const isLunas = statusInfaq === 'Lunas';
+                const namaClean = (s.nama || '').toString().trim().toLowerCase();
+
+                const existingLog = presensiLogs.find(p => {
+                    const pNama = (p.nama || '').toString().trim().toLowerCase();
+                    const pTgl = normalizeDateString(p.tanggal);
+                    return pNama === namaClean && pTgl === selectedDate;
+                });
+
+                const currentStatus = presensiTempState[s.nama] || (existingLog ? existingLog.status : 'Belum Diabsen');
+                const kehadiranVal = parseFloat(s.kehadiran) || 100;
+                const isBelowTarget = kehadiranVal < 80;
+
+                let badgeStyle = "bg-slate-100 text-slate-500 font-medium";
+                if (currentStatus === 'Hadir') badgeStyle = "bg-emerald-100 text-emerald-800 font-bold";
+                else if (currentStatus === 'Izin') badgeStyle = "bg-blue-100 text-blue-800 font-bold";
+                else if (currentStatus === 'Sakit') badgeStyle = "bg-amber-100 text-amber-800 font-bold";
+                else if (currentStatus === 'Alpa') badgeStyle = "bg-rose-100 text-rose-800 font-bold";
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-mono text-xs">${s.id || '-'}</td>
                         <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
                         <td class="p-3 text-xs">${s.kelas || '-'}</td>
-                        <td class="p-3 font-medium">${s.nominal || 'Rp 150.000'}</td>
-                        <td class="p-3"><span class="px-2.5 py-1 text-xs rounded-full font-bold ${isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${statusInfaq}</span></td>
+                        <td class="p-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-sm ${isBelowTarget ? 'text-red-600' : 'text-emerald-600'}">${kehadiranVal}%</span>
+                                ${isBelowTarget ? '<span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">&lt; 80% Target</span>' : ''}
+                            </div>
+                        </td>
                         <td class="p-3 text-center">
-                            <button onclick="toggleInfaq('${s.id}')" class="text-xs bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-1 rounded font-medium text-slate-700">Ubah Status</button>
+                            <span id="status-${s.id}" class="text-xs px-2.5 py-1 rounded-full ${badgeStyle}">${currentStatus}</span>
+                        </td>
+                        <td class="p-3 text-center">
+                            <div class="flex justify-center space-x-1">
+                                <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Hadir')" class="px-2.5 py-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white rounded font-medium transition">Hadir</button>
+                                <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Izin')" class="px-2.5 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition">Izin</button>
+                                <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Sakit')" class="px-2.5 py-1 text-xs bg-amber-500 hover:bg-amber-600 text-white rounded font-medium transition">Sakit</button>
+                                <button onclick="selectPresensiStatus('${s.id}', '${s.nama}', 'Alpa')" class="px-2.5 py-1 text-xs bg-rose-600 hover:bg-rose-700 text-white rounded font-medium transition">Alpa</button>
+                            </div>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function toggleInfaq(id) {
-            const santri = santriList.find(s => s.id === id);
-            if (santri) {
-                santri.infaq = santri.infaq === 'Lunas' ? 'Belum Lunas' : 'Lunas';
-                renderInfaqTable();
+        function selectPresensiStatus(id, nama, status) {
+            presensiTempState[nama] = status;
+            const badge = document.getElementById(`status-${id}`);
+            if (badge) {
+                badge.innerText = status;
+                let badgeClass = "bg-slate-100 text-slate-500";
+                if (status === 'Hadir') badgeClass = 'bg-emerald-100 text-emerald-800';
+                else if (status === 'Izin') badgeClass = 'bg-blue-100 text-blue-800';
+                else if (status === 'Sakit') badgeClass = 'bg-amber-100 text-amber-800';
+                else if (status === 'Alpa') badgeClass = 'bg-rose-100 text-rose-800';
+
+                badge.className = `text-xs px-2.5 py-1 rounded-full font-bold ${badgeClass}`;
             }
+        }
+
+        async function submitBatchPresensi() {
+            const rawDate = document.getElementById('presensi-date') ? document.getElementById('presensi-date').value : '';
+            const tanggal = normalizeDateString(rawDate);
+            
+            if (!tanggal) {
+                alert("Pilih tanggal presensi terlebih dahulu!");
+                return;
+            }
+
+            const selectedKelas = document.getElementById('filter-kelas-presensi').value;
+            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+
+            const payloadData = filteredSantri.map(s => {
+                const namaClean = (s.nama || '').toString().trim();
+                
+                const existingLog = presensiLogs.find(p => {
+                    const pNama = (p.nama || '').toString().trim().toLowerCase();
+                    const pTgl = normalizeDateString(p.tanggal);
+                    return pNama === namaClean.toLowerCase() && pTgl === tanggal;
+                });
+
+                const currentStatus = presensiTempState[namaClean] || (existingLog ? existingLog.status : 'Hadir');
+                presensiTempState[namaClean] = currentStatus;
+
+                return {
+                    tanggal: tanggal,
+                    id: s.id,
+                    nama: s.nama,
+                    kelas: s.kelas,
+                    status: currentStatus
+                };
+            });
+
+            const btnKirim = document.getElementById('btn-kirim-presensi');
+            btnKirim.disabled = true;
+            btnKirim.innerText = "Mengirim...";
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "saveBatchPresensi", records: payloadData })
+                });
+
+                alert(`Presensi tanggal ${tanggal} berhasil tersimpan ke Google Sheets!`);
+
+                payloadData.forEach(item => {
+                    const existingIndex = presensiLogs.findIndex(p => 
+                        (p.nama || '').toString().trim().toLowerCase() === item.nama.trim().toLowerCase() && 
+                        normalizeDateString(p.tanggal) === item.tanggal
+                    );
+                    if (existingIndex !== -1) {
+                        presensiLogs[existingIndex].status = item.status;
+                    } else {
+                        presensiLogs.push(item);
+                    }
+                });
+
+                renderPresensiTable();
+
+            } catch (err) {
+                console.error("Gagal mengirim presensi:", err);
+                alert("Gagal terhubung ke Google Sheets.");
+            }
+
+            btnKirim.disabled = false;
+            btnKirim.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Kirim Presensi</span>`;
+        }
+
+        // 9. Menu 4: Infaq Bulanan (Sistem Baru Sama Seperti Presensi)
+        async function onInfaqFilterChange() {
+            infaqTempState = {};
+            try {
+                const resInfaq = await fetch(`${WEB_APP_URL}?action=getInfaq`);
+                infaqLogs = await resInfaq.json();
+            } catch (err) {
+                console.error("Gagal mengambil data infaq:", err);
+            }
+            renderInfaqTable();
+        }
+
+        function renderInfaqTable() {
+            const filterStatus = document.getElementById('filter-infaq') ? document.getElementById('filter-infaq').value : 'All';
+            const selectedKelas = document.getElementById('filter-kelas-infaq') ? document.getElementById('filter-kelas-infaq').value : 'All';
+            const bulanVal = document.getElementById('filter-bulan-infaq') ? document.getElementById('filter-bulan-infaq').value : '2026-09';
+
+            if (bulanVal && document.getElementById('infaq-periode-label')) {
+                const [yyyy, mm] = bulanVal.split('-');
+                const dateObj = new Date(yyyy, parseInt(mm) - 1, 1);
+                const namaBulan = dateObj.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+                document.getElementById('infaq-periode-label').innerText = namaBulan;
+            }
+
+            const tbody = document.getElementById('infaq-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+
+            if (filteredSantri.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada santri pada kelas ini.</td></tr>`;
+                return;
+            }
+
+            filteredSantri.forEach(s => {
+                const idClean = (s.id || '').toString().trim();
+                const namaClean = (s.nama || '').toString().trim().toLowerCase();
+
+                const logInfaq = infaqLogs.find(i => {
+                    const iId = (i.id_santri || '').toString().trim();
+                    const iNama = (i.nama || '').toString().trim().toLowerCase();
+                    const iBulan = normalizeDateString(i.bulan_tahun).substring(0, 7);
+                    return (iId === idClean || iNama === namaClean) && iBulan === bulanVal;
+                });
+
+                // Cek dari state temporary lokal dulu, lalu fallback ke Google Sheets
+                const currentStatus = infaqTempState[s.nama] || (logInfaq ? logInfaq.status : 'Belum Lunas');
+                const nominalBayar = logInfaq && logInfaq.nominal ? `Rp ${parseInt(logInfaq.nominal).toLocaleString('id-ID')}` : 'Rp 70.000';
+
+                if (filterStatus !== 'All' && currentStatus !== filterStatus) return;
+
+                const isLunas = currentStatus === 'Lunas';
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-mono text-xs">${s.id || '-'}</td>
+                        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
+                        <td class="p-3 text-xs">${s.kelas || '-'}</td>
+                        <td class="p-3 font-medium">${nominalBayar}</td>
+                        <td class="p-3">
+                            <span id="infaq-badge-${s.id}" class="px-2.5 py-1 text-xs rounded-full font-bold ${isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
+                                ${currentStatus}
+                            </span>
+                        </td>
+                        <td class="p-3 text-center">
+                            <button onclick="toggleInfaqStatusLocal('${s.id}', '${s.nama}', '${currentStatus}')" class="text-xs bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-1 rounded font-medium text-slate-700 transition">
+                                Ubah Status
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Toggle Status Infaq secara Lokal (UI Langsung Berubah)
+        function toggleInfaqStatusLocal(id, nama, currentStatus) {
+            const newStatus = currentStatus === 'Lunas' ? 'Belum Lunas' : 'Lunas';
+            infaqTempState[nama] = newStatus;
+
+            const badge = document.getElementById(`infaq-badge-${id}`);
+            if (badge) {
+                badge.innerText = newStatus;
+                const isLunas = newStatus === 'Lunas';
+                badge.className = `px-2.5 py-1 text-xs rounded-full font-bold ${isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`;
+            }
+
+            // Re-render untuk memperbarui state tombol
+            renderInfaqTable();
+        }
+
+        // Tombol Submit Batch Infaq (Kirim Semua Perubahan ke Google Sheets)
+        async function submitBatchInfaq() {
+            const bulanVal = document.getElementById('filter-bulan-infaq').value;
+            const tanggalFull = `${bulanVal}-28`;
+            const selectedKelas = document.getElementById('filter-kelas-infaq').value;
+
+            const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
+
+            const payloadData = filteredSantri.map(s => {
+                const idClean = (s.id || '').toString().trim();
+                const namaClean = (s.nama || '').toString().trim();
+
+                const logInfaq = infaqLogs.find(i => {
+                    const iId = (i.id_santri || '').toString().trim();
+                    const iNama = (i.nama || '').toString().trim().toLowerCase();
+                    const iBulan = normalizeDateString(i.bulan_tahun).substring(0, 7);
+                    return (iId === idClean || iNama === namaClean.toLowerCase()) && iBulan === bulanVal;
+                });
+
+                const statusBayar = infaqTempState[s.nama] || (logInfaq ? logInfaq.status : 'Belum Lunas');
+                infaqTempState[s.nama] = statusBayar;
+
+                return {
+                    action: "saveInfaq",
+                    id_santri: s.id,
+                    nama: s.nama,
+                    bulan_tahun: tanggalFull,
+                    nominal: 70000,
+                    status: statusBayar
+                };
+            });
+
+            const btnKirim = document.getElementById('btn-kirim-infaq');
+            btnKirim.disabled = true;
+            btnKirim.innerText = "Menyimpan...";
+
+            try {
+                // Kirim seluruh record perubahan infaq
+                await Promise.all(payloadData.map(payload => 
+                    fetch(WEB_APP_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    })
+                ));
+
+                alert(`Data infaq bulan ${document.getElementById('infaq-periode-label').innerText} berhasil tersimpan ke Google Sheets!`);
+                
+                // Ambil data terbaru dari server
+                await onInfaqFilterChange();
+
+            } catch (err) {
+                console.error("Gagal menyimpan data infaq:", err);
+                alert("Gagal terhubung ke Google Sheets.");
+            }
+
+            btnKirim.disabled = false;
+            btnKirim.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Simpan Data Infaq</span>`;
         }
 
         // 10. Menu 5: Cetak Rapor
@@ -1045,37 +1142,25 @@ async function submitBatchPresensi() {
             `;
         }
 
-        // Helper untuk menstandarkan SEMUA format tanggal menjadi YYYY-MM-DD
-function normalizeDateString(dateVal) {
-    if (!dateVal) return "";
-    let str = dateVal.toString().trim();
-
-    // 1. Jika mengandung timestamp T (contoh: 2026-09-29T17:00:00.000Z)
-    if (str.includes("T")) {
-        str = str.split("T")[0];
-    }
-    
-    // 2. Jika formatnya DD/MM/YYYY (contoh: 29/09/2026)
-    if (str.includes("/")) {
-        const parts = str.split("/");
-        if (parts.length === 3) {
-            // Jika empat digit di akhir (29/09/2026) -> ubah ke YYYY-MM-DD
-            if (parts[2].length === 4) {
-                return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+        // Helper Normalisasi Format Tanggal ke YYYY-MM-DD
+        function normalizeDateString(dateVal) {
+            if (!dateVal) return "";
+            let str = dateVal.toString().trim();
+            if (str.includes("T")) str = str.split("T")[0];
+            if (str.includes("/")) {
+                const parts = str.split("/");
+                if (parts.length === 3 && parts[2].length === 4) {
+                    return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+                }
             }
-        }
-    }
-
-    // 3. Jika format YYYY-M-D (contoh: 2026-9-29) -> beri angka 0 di bulan/hari
-    if (str.includes("-")) {
-        const parts = str.split(" ")[0].split("-");
-        if (parts.length === 3 && parts[0].length === 4) {
-            return `${parts[0]}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
-        }
-    }
-
-    return str;
-}        
+            if (str.includes("-")) {
+                const parts = str.split(" ")[0].split("-");
+                if (parts.length === 3 && parts[0].length === 4) {
+                    return `${parts[0]}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
+                }
+            }
+            return str;
+        }        
     </script>
 </body>
 </html>
