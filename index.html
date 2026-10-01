@@ -260,7 +260,7 @@
                         <!-- Filter Tanggal -->
                         <div class="flex items-center space-x-1">
                             <label class="text-xs font-semibold text-slate-600">Tanggal:</label>
-                            <input type="date" id="presensi-date" onchange="onPresensiDateChange()" class="px-3 py-1.5 text-xs border border-slate-200 rounded-lg font-medium focus:ring-2 focus:ring-brand-500">
+                            <input type="date" id="presensi-date" onchange="onPresensiDateChange()" class="px-3 py-1.5 text-sm border border-slate-200 rounded-lg">
                         </div>
 
                         <!-- Tombol Kirim / Simpan Massal -->
@@ -290,7 +290,7 @@
             </div>
         </div>
 
-        <!-- TAB CONTENT 4: INFAQ BULANAN -->
+        <!-- TAB CONTENT 4: INFAQ BULANAN (SISTEM SAMA DENGAN PRESENSI) -->
         <div id="content-infaq" class="tab-content hidden">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -474,7 +474,7 @@
         let presensiLogs = [];
         let infaqLogs = [];
         let presensiTempState = {}; 
-        let infaqTempState = {}; 
+        let infaqTempState = {}; // Penampung state temporary untuk Infaq Bulanan
 
         // 1. Inisialisasi Halaman
         document.addEventListener('DOMContentLoaded', () => {
@@ -922,7 +922,7 @@
             btnKirim.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Kirim Presensi</span>`;
         }
 
-        // 9. Menu 4: Infaq Bulanan
+        // 9. Menu 4: Infaq Bulanan (Sistem Baru Sama Seperti Presensi)
         async function onInfaqFilterChange() {
             infaqTempState = {};
             try {
@@ -968,6 +968,7 @@
                     return (iId === idClean || iNama === namaClean) && iBulan === bulanVal;
                 });
 
+                // Cek dari state temporary lokal dulu, lalu fallback ke Google Sheets
                 const currentStatus = infaqTempState[s.nama] || (logInfaq ? logInfaq.status : 'Belum Lunas');
                 const nominalBayar = logInfaq && logInfaq.nominal ? `Rp ${parseInt(logInfaq.nominal).toLocaleString('id-ID')}` : 'Rp 70.000';
 
@@ -996,6 +997,7 @@
             });
         }
 
+        // Toggle Status Infaq secara Lokal (UI Langsung Berubah)
         function toggleInfaqStatusLocal(id, nama, currentStatus) {
             const newStatus = currentStatus === 'Lunas' ? 'Belum Lunas' : 'Lunas';
             infaqTempState[nama] = newStatus;
@@ -1007,9 +1009,11 @@
                 badge.className = `px-2.5 py-1 text-xs rounded-full font-bold ${isLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}`;
             }
 
+            // Re-render untuk memperbarui state tombol
             renderInfaqTable();
         }
 
+        // Tombol Submit Batch Infaq (Kirim Semua Perubahan ke Google Sheets)
         async function submitBatchInfaq() {
             const bulanVal = document.getElementById('filter-bulan-infaq').value;
             const tanggalFull = `${bulanVal}-28`;
@@ -1046,6 +1050,7 @@
             btnKirim.innerText = "Menyimpan...";
 
             try {
+                // Kirim seluruh record perubahan infaq
                 await Promise.all(payloadData.map(payload => 
                     fetch(WEB_APP_URL, {
                         method: "POST",
@@ -1056,6 +1061,8 @@
                 ));
 
                 alert(`Data infaq bulan ${document.getElementById('infaq-periode-label').innerText} berhasil tersimpan ke Google Sheets!`);
+                
+                // Ambil data terbaru dari server
                 await onInfaqFilterChange();
 
             } catch (err) {
@@ -1066,132 +1073,7 @@
             btnKirim.disabled = false;
             btnKirim.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Simpan Data Infaq</span>`;
         }
-// Ganti dengan URL Web App Apps Script Anda yang Valid
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfnU4RTYZJsn_mOeKtw3ggii3IBjOAg4YAwrdPayWbBfRD7JHVaxBYZm3OUTYFbvQ/exec";
 
-let santriList = [];
-let mutabaahLogs = [];
-let presensiLogs = [];
-
-// 1. Ambil Seluruh Data secara Real-Time dari Google Sheets
-async function fetchDataFromSheets() {
-  try {
-    const resSantri = await fetch(`${WEB_APP_URL}?action=getSantri`);
-    santriList = await resSantri.json();
-
-    const resMutabaah = await fetch(`${WEB_APP_URL}?action=getMutabaah`);
-    mutabaahLogs = await resMutabaah.json();
-
-    const resPresensi = await fetch(`${WEB_APP_URL}?action=getPresensi`);
-    presensiLogs = await resPresensi.json();
-
-    populateKelasDropdowns();
-    renderSantriTable();
-    renderMutabaah();
-    renderPresensiTable();
-    renderRaporSelect();
-  } catch (error) {
-    console.error("Gagal terhubung ke Google Sheets API:", error);
-  }
-}
-
-// 2. Render Tabel Presensi Berdasarkan Tanggal & Filter Kelas
-function renderPresensiTable() {
-  const selectedKelas = document.getElementById('filter-kelas-presensi') ? document.getElementById('filter-kelas-presensi').value : 'All';
-  const selectedDate = document.getElementById('presensi-date') ? document.getElementById('presensi-date').value : '';
-
-  const tbody = document.getElementById('presensi-tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-
-  const filteredSantri = santriList.filter(s => (selectedKelas === 'All') || (s.kelas === selectedKelas));
-
-  if (filteredSantri.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada santri di kelas ini.</td></tr>`;
-    return;
-  }
-
-  filteredSantri.forEach(s => {
-    // Cocokkan status presensi santri berdasarkan nama & tanggal yang dipilih
-    const logHariIni = presensiLogs.find(p => p.nama === s.nama && p.tanggal === selectedDate);
-    const statusHariIni = logHariIni ? logHariIni.status : 'Belum Diabsen';
-
-    let badgeStyle = "bg-slate-100 text-slate-600";
-    if (statusHariIni === 'Hadir') badgeStyle = "bg-emerald-100 text-emerald-800 font-bold";
-    else if (statusHariIni === 'Izin') badgeStyle = "bg-blue-100 text-blue-800 font-bold";
-    else if (statusHariIni === 'Sakit') badgeStyle = "bg-amber-100 text-amber-800 font-bold";
-
-    tbody.innerHTML += `
-      <tr class="hover:bg-slate-50">
-        <td class="p-3 font-semibold text-slate-800">${s.nama || '-'}</td>
-        <td class="p-3 text-xs">${s.kelas || '-'}</td>
-        <td class="p-3">
-          <span class="font-bold text-sm text-emerald-600">100%</span>
-        </td>
-        <td class="p-3 text-center">
-          <span id="status-${s.id}" class="text-xs px-2 py-1 rounded ${badgeStyle}">${statusHariIni}</span>
-        </td>
-        <td class="p-3 text-center">
-          <div class="flex justify-center space-x-1">
-            <button onclick="savePresensiSantri('${s.id}', '${s.nama}', '${s.kelas}', 'Hadir')" class="px-2 py-1 text-xs bg-emerald-600 text-white rounded hover:bg-emerald-700">Hadir</button>
-            <button onclick="savePresensiSantri('${s.id}', '${s.nama}', '${s.kelas}', 'Izin')" class="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">Izin</button>
-            <button onclick="savePresensiSantri('${s.id}', '${s.nama}', '${s.kelas}', 'Sakit')" class="px-2 py-1 text-xs bg-amber-500 text-white rounded hover:bg-amber-600">Sakit</button>
-          </div>
-        </td>
-      </tr>
-    `;
-  });
-}
-
-// 3. Simpan Status Presensi ke Google Sheets Secara Real-Time
-async function savePresensiSantri(id, nama, kelas, status) {
-  const targetDate = document.getElementById('presensi-date').value;
-  if (!targetDate) {
-    alert("Pilih tanggal terlebih dahulu!");
-    return;
-  }
-
-  // Update Tampilan Langsung di Layar (UI)
-  const elem = document.getElementById(`status-${id}`);
-  if (elem) {
-    elem.innerText = status;
-    elem.className = `text-xs px-2 py-1 rounded font-bold ${status === 'Hadir' ? 'bg-emerald-100 text-emerald-800' : status === 'Izin' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'}`;
-  }
-
-  // Update Data Lokal
-  const existingLog = presensiLogs.find(p => p.nama === nama && p.tanggal === targetDate);
-  if (existingLog) {
-    existingLog.status = status;
-  } else {
-    presensiLogs.push({ tanggal: targetDate, nama, kelas, status });
-  }
-
-  // Kirim data POST ke Google Apps Script
-  try {
-    await fetch(WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "savePresensi",
-        tanggal: targetDate,
-        nama: nama,
-        kelas: kelas,
-        status: status
-      })
-    });
-  } catch (err) {
-    console.error("Gagal menyimpan presensi:", err);
-  }
-}
-
-// Jalankan Pemanggilan Data Pertama Kali saat Halaman Dibuka
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('presensi-date')) {
-    document.getElementById('presensi-date').valueAsDate = new Date();
-  }
-  fetchDataFromSheets();
-});
         // 10. Menu 5: Cetak Rapor
         function renderRaporSelect() {
             const selectedKelas = document.getElementById('filter-kelas-rapor') ? document.getElementById('filter-kelas-rapor').value : 'All';
@@ -1202,7 +1084,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (filteredSantri.length === 0) {
                 select.innerHTML = `<option value="">Tidak ada santri</option>`;
-                document.getElementById('rapor-card-details').innerHTML = `<p class="text-center text-slate-400 py-6">Pilih kelas yang memiliki santri.</p>`;
+                document.getElementById('rapor-card-details').innerHTML = `<p class="text-center text-slate-400 py-6">Pilih kelas yang memiliki data santri.</p>`;
                 return;
             }
 
